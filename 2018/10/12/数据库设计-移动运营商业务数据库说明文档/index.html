@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,数据库,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="项目介绍 实现内容：使用MySQL关系型数据库，设计关于运营商数据库的所有表，使用java代码生成测试数据，对测试数据进行查找测试 开发平台：IntelliJ IDEA Ultimate，MySQL Workbench 6.3 CE 使用技术：java、hibernate orm架构、mysql、spring boot、jpa、 设计模式：模板模式 项目地址：运营商数据库  创建数据库 创建数据库">
+<meta name="keywords" content="java,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库设计-移动运营商业务数据库">
+<meta property="og:url" content="http://yoursite.com/2018/10/12/数据库设计-移动运营商业务数据库说明文档/index.html">
+<meta property="og:site_name" content="somnus">
+<meta property="og:description" content="项目介绍 实现内容：使用MySQL关系型数据库，设计关于运营商数据库的所有表，使用java代码生成测试数据，对测试数据进行查找测试 开发平台：IntelliJ IDEA Ultimate，MySQL Workbench 6.3 CE 使用技术：java、hibernate orm架构、mysql、spring boot、jpa、 设计模式：模板模式 项目地址：运营商数据库  创建数据库 创建数据库">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/10/12/images/1540270255808.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/12/images/1539326429599.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/12/images/1539421717594.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/12/images/1539423180784.png">
+<meta property="og:image" content="c:/hexo/source/images/1539601810131.png">
+<meta property="og:image" content="c:/hexo/source/images/1539604919402.png">
+<meta property="og:image" content="c:/hexo/source/images/1539604942442.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/12/images/1540271700389.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/12/images/1540272388161.png">
+<meta property="og:image" content="c:/hexo/source/images/1539604997520.png">
+<meta property="og:updated_time" content="2018-10-23T10:22:12.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库设计-移动运营商业务数据库">
+<meta name="twitter:description" content="项目介绍 实现内容：使用MySQL关系型数据库，设计关于运营商数据库的所有表，使用java代码生成测试数据，对测试数据进行查找测试 开发平台：IntelliJ IDEA Ultimate，MySQL Workbench 6.3 CE 使用技术：java、hibernate orm架构、mysql、spring boot、jpa、 设计模式：模板模式 项目地址：运营商数据库  创建数据库 创建数据库">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/12/images/1540270255808.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/12/数据库设计-移动运营商业务数据库说明文档/">
+
+
+
+
+
+  <title>数据库设计-移动运营商业务数据库 | somnus</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">somnus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/数据库设计-移动运营商业务数据库说明文档/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库设计-移动运营商业务数据库</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-12T13:05:34+08:00">
+                2018-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><ul>
+<li>实现内容：使用MySQL关系型数据库，设计关于运营商数据库的所有表，使用java代码生成测试数据，对测试数据进行查找测试</li>
+<li>开发平台：IntelliJ IDEA Ultimate，MySQL Workbench 6.3 CE</li>
+<li>使用技术：java、hibernate orm架构、mysql、spring boot、jpa、</li>
+<li>设计模式：模板模式</li>
+<li>项目地址：<a href="https://github.com/PErFeCtISHiT/database-exercise" target="_blank" rel="noopener">运营商数据库</a></li>
+</ul>
+<h1 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h1><ul>
+<li><p>创建数据库并授予权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database businessDB</span><br><span class="line">grant all privileges on businessDB.* to user@localhost identified by &apos;password′;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<ul>
+<li><p>采用hbm2ddl 来定义数据库结构，ddl是一种sql语言，用来定义数据库的结构，如建立一张表，创建一个数据库，hbm2ddl是hibernate框架用来自动创建|更新|验证数据库表结构的一个工具。第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。具体创建方法是hibernate去根据java代码中的Entity类创建数据表。</p>
+</li>
+<li><p>数据库可以通过dbscript.sql文件来生成，dbscript.sql文件是项目完成后生成的源数据脚本。实现了建表和测试数据生成。</p>
+</li>
+<li><p>数据库ER图：</p>
+<p><img src="..\images\1540270255808.png" alt="54027025580"></p>
+<ul>
+<li>user表记录了用户的id，当月通话时间、短信条数、国内外流量使用</li>
+<li>user_discount是一张关联表，记录了user_id，discount_id，反应用户当前套餐的关系（退订会影响该表）（不同套餐可以叠加）</li>
+<li>discount记录了套餐的id，名称，功能费，通话时间、短信条数、国内外流量。</li>
+<li>user_order记录了订单的id、user_id（外键）、discount_id（外键）、订购时间，记录的是用户订购套餐的历史（退订不会影响该表）</li>
+<li>bill记录了月账单的id、日期、通话时间、短信条数、国内外流量、user_id（外键）、通话资费、信息资费、本地流量资费、全国流量资费。其中各项资费均记录套餐外产生的资费。</li>
+<li>flow_record记录了流量记录的id，日期，国内外流量，资费。</li>
+<li>call_record记录了通话记录的id，日期，通话时长，资费。</li>
+</ul>
+</li>
+<li><p>资费设计,因为优惠套餐可以叠加，所以超出套餐部分按照基准资费计算，优惠套餐本身不考虑超出后计费问题。</p>
+<ul>
+<li><p>基准资费</p>
+<ul>
+<li>通话费用：0.5元/分钟（仅拨打收费，接听免费）</li>
+<li>短信费用：0.1元/条</li>
+<li>本地流量费用（仅考虑4G流量）：2元/M</li>
+<li>国内流量费用（仅考虑4G流量）：5元/M</li>
+</ul>
+</li>
+<li><p>优惠套餐</p>
+<ul>
+<li>话费套餐：月功能费20元，最多可拨打100分钟电话</li>
+<li>短信套餐：月功能费10元，最多可发送200条短信</li>
+<li>本地流量套餐：月功能费20元，最多可获得2G流量，仅在本地使用</li>
+<li>国内流量套餐：月功能费30元，最多可获得2G流量。</li>
+<li>混合套餐：月功能费40元，最多可拨打50分钟电话，发生100条短信，获得1G本地流量，1G国内流量（多种优惠）</li>
+</ul>
+<p>​</p>
+</li>
+</ul>
+</li>
+<li><p>后端使用ORM架构，利用OneToMany，ManyToOne，ManyToMany等完成表之间的映射关系。例如：<img src="..\images\1539326429599.png" alt="53932642959"></p>
+</li>
+</ul>
+<h1 id="后端实现"><a href="#后端实现" class="headerlink" title="后端实现"></a>后端实现</h1><h1 id="测试数据生成"><a href="#测试数据生成" class="headerlink" title="测试数据生成"></a>测试数据生成</h1><p>先分析一段导出的sql脚本</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`user`</span>;</span><br><span class="line"><span class="comment">/*!40101 SET @saved_cs_client     = @@character_set_client */</span>;</span><br><span class="line"><span class="comment">/*!40101 SET character_set_client = utf8 */</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`call_month`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`internal_flow_month`</span> <span class="keyword">double</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`local_flow_month`</span> <span class="keyword">double</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`message_month`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">3</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"><span class="comment">/*!40101 SET character_set_client = @saved_cs_client */</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Dumping data for table `user`</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">LOCK</span> <span class="keyword">TABLES</span> <span class="string">`user`</span> WRITE;</span><br><span class="line"><span class="comment">/*!40000 ALTER TABLE `user` DISABLE KEYS */</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`user`</span> <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">150</span>,<span class="number">200</span>,<span class="number">5000</span>,<span class="number">260</span>),(<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line"><span class="comment">/*!40000 ALTER TABLE `user` ENABLE KEYS */</span>;</span><br><span class="line"><span class="keyword">UNLOCK</span> <span class="keyword">TABLES</span>;</span><br></pre></td></tr></table></figure>
+<p>插入数据的基本操作便是占用写锁、插入数据、释放写锁。编写testDataGenerator类来产生测试数据（基本表各10万条，关联表视情况而定），将测试数据写入若干sql文件中，在mysql控制台运行该脚本便生成了测试数据。</p>
+<p><img src="..\images\1539421717594.png" alt="53942171759"></p>
+<p>插入20万条数据：</p>
+<p><img src="..\images\1539423180784.png" alt="53942318078"></p>
+<h2 id="模板模式"><a href="#模板模式" class="headerlink" title="模板模式"></a>模板模式</h2><p><strong>意图：</strong>定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。</p>
+<p><strong>主要解决：</strong>一些方法通用，却在每一个子类都重新写了这一方法。</p>
+<p><strong>使用场景：</strong> 1、有多个子类共有的方法，且逻辑相同。 2、重要的、复杂的方法，可以考虑作为模板方法。</p>
+<p>在设计数据库服务类时，便使用到了模板模式，不管是那张表，因为jpa对操作进行了封装，可以利用object进行操作，因此对数据库的操作有一部分是相同的，如根据primary key查找，新增，修改，删除，统计个数，判断是否存在，清空表。在设计中建立抽象类PublicService，声明了一个泛型JpaRepository以及上述方法，所有继承PublicService的类都要去自己定义自己的JpaRepository，之后，便可以直接复用父类的方法。减少重复代码。</p>
+<p><img src="C:\hexo\source\images\1539601810131.png" alt="53960181013"></p>
+<h2 id="数据库相关操作"><a href="#数据库相关操作" class="headerlink" title="数据库相关操作"></a>数据库相关操作</h2><p>Main.java每次运行会在10万名用户中抽取10名，查询当前套餐，查询历史套餐，订购套餐1，退订套餐1（立即生效或下个月生效），生成通话资费，生成流量资费，查询月账单，经测试，平均每个操作约耗时100毫秒，最多的耗时为1000毫秒。</p>
+<ul>
+<li><p>对某个用户进行套餐的查询（包括历史记录），使用@ManyToMany进行user表与discount表的关联映射，当需要加载某个用户的Set<discountentity> discountEntities时，hibernate通过lazy initialize去查找这个用户的discount，历史记录同理，建立ures与order表的关联映射，Set<orderentity> orderEntities记录了用户的历史记录。</orderentity></discountentity></p>
+<p><img src="C:\hexo\source\images\1539604919402.png" alt="53960491940"></p>
+</li>
+<li><p>订购、退订（考虑立即生效和次月生效）操作，订购套餐即先lazy initialize某个用户的所有套餐，再在这个set里添加一项，通过jpa封装的modify将事务提交至mysql数据库，退订同理，次月生效的退订使用了java的TimerTask类来进行延时处理。</p>
+<p><img src="C:\hexo\source\images\1539604942442.png" alt="53960494244"></p>
+</li>
+<li><p>某个用户在通话情况下的资费生成，得到用户当月的套餐，计算出套餐外的通话量，产生通话记录。</p>
+<p><img src="..\images\1540271700389.png" alt="54027170038"></p>
+</li>
+<li><p>某个用户在使用流量情况下的资费生成，同上。</p>
+<p><img src="..\images\1540272388161.png" alt="54027238816"></p>
+</li>
+<li><p>某个用户月账单的生成，用户信息中记录了用户当月的各类服务使用量，user与discount表关联得到了用户的优惠套餐，用使用量减去优惠套餐得到了优惠套餐之外的额外消费，产生月账单记录。</p>
+<p><img src="C:\hexo\source\images\1539604997520.png" alt="53960499752"></p>
+</li>
+</ul>
+<h1 id="项目回顾"><a href="#项目回顾" class="headerlink" title="项目回顾"></a>项目回顾</h1><ul>
+<li><p>设计方案</p>
+<ul>
+<li>用户套餐关系中，使用了两张表user_discount和user_order来反应不同的关系，前者反应用户当前的套餐，后者反应套餐历史，而不是选择使用一张表来记录用户的所有套餐，再用一个标志位来区分是当前套餐还是套餐历史，是考虑到了时间效率，因为用户更加经常做的事情是去查看自己当前的套餐情况，如果使用一张表的设计，查询所有的套餐历史再去筛选当前套餐，会影响数据库效率，用户当前的套餐数量远小于历史套餐数量。（两张表代替一张表，空间换取时间）</li>
+<li>用户账单关系中，考虑到需要的操作：某个用户在通话情况下的资费生成、某个用户在使用流量情况下的资费生成、某个用户月账单的生成，应该设计三个表：用户通话总资费，用户流量总资费、用户月账单总资费，但是这样设计会加重与数据库交互的后端的任务，因为每当月底生成月账单时，后端要记得去三个表里修改数据，用户的通话增加了，流量增加了，月账单也要更新，如果这样设计数据库，在月底结账那一天数据库的负担会很大，要更新三张表里面许多的冗余数据，因此这里只设计了一张表，即用户月账单，用户通话的总资费可以去将所有月账单的通话累积，流量同理，这样设计带来的问题是获取用户通话总资费会进行更多的查询操作，但是这样可以将负担分配到每一天，因为这几个操作是随机进行的，而不像月底结账一样数据量繁重。牺牲单个用户进行某个操作的效率换取了对全体用户维持三个表带来的负担。（一张表代替三张表，分散数据库压力）</li>
+</ul>
+</li>
+<li><p>遇到的问题</p>
+<ul>
+<li><p>LazyInitializationException，曾经遇到过这个问题，没有做深入了解便轻易将fetchtype换成eager，对于小数据量来说是一个解决方案，然而这个项目中设计了10万条测试，遇到这个异常时我把所有的fetchtype都换成了eager，急加载所有数据，换来的代价就是查找一个记录需要一分多钟，将sql内容输出到日志才发现，如果要查找某个用户和他的所有套餐，原先的操作可能是</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> userentity0_.id <span class="keyword">as</span> id1_2_0_, userentity0_.call_month <span class="keyword">as</span> call_mon2_2_0_, userentity0_.internal_flow_month <span class="keyword">as</span> internal3_2_0_, userentity0_.local_flow_month <span class="keyword">as</span> local_fl4_2_0_, userentity0_.message_month <span class="keyword">as</span> message_5_2_0_ <span class="keyword">from</span> <span class="keyword">user</span> userentity0_ <span class="keyword">where</span> userentity0_.id=?</span><br><span class="line"><span class="keyword">select</span> discounten0_.user_entities_id <span class="keyword">as</span> user_ent1_4_0_, discounten0_.discount_entities_id <span class="keyword">as</span> discount2_4_0_, discounten1_.id <span class="keyword">as</span> id1_1_1_, discounten1_.call_count <span class="keyword">as</span> call_cou2_1_1_, discounten1_.internal_flow <span class="keyword">as</span> internal3_1_1_, discounten1_.local_flow <span class="keyword">as</span> local_fl4_1_1_, discounten1_.message_count <span class="keyword">as</span> message_5_1_1_, discounten1_.discount_name <span class="keyword">as</span> discount6_1_1_, discounten1_.price <span class="keyword">as</span> price7_1_1_ <span class="keyword">from</span> user_discount discounten0_ <span class="keyword">inner</span> <span class="keyword">join</span> discount discounten1_ <span class="keyword">on</span> discounten0_.discount_entities_id=discounten1_.id <span class="keyword">where</span> discounten0_.user_entities_id=?</span><br></pre></td></tr></table></figure>
+<p>，先找到这个用户，再去找他跟其他表的关联，由于使用了急加载，所有跟user有关的表都被先查询，在筛选用户之前，便对10万个用户与他们的10万条优惠套餐做了笛卡儿积，最终所有操作加起来用时超过了三分钟，产生了近百兆的日志文件，lazy initialize允许加载一个对象时先不加载这个对象的这个属性，当使用它时，hibernate再去数据库获取，在数据量相当大时比eager initialize的性能要有显著优化。解决LazyInitializationException的方法则是使用@Transactional注解去管理事务。</p>
+</li>
+</ul>
+</li>
+<li><p>主键索引</p>
+<p>由于设计中对数据库的操作可以通过查询主键+表的关联映射来实现，使用lazy initialize可以在数据量较大的时候先定位到需要找的几个元素，再针对这几个元素关联查找，所有的查询语句都建立在仅查询主键的情况下完成，在建表时便建立好了主键索引，因此项目中的所有查询操作均是在索引结构中完成的。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/09/IDA-pro 第一次反汇编/" rel="next" title="IDA-pro">
+                <i class="fa fa-chevron-left"></i> IDA-pro
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/26/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sf.png" alt="John Doe">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目介绍"><span class="nav-number">1.</span> <span class="nav-text">项目介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建数据库"><span class="nav-number">2.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后端实现"><span class="nav-number">3.</span> <span class="nav-text">后端实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试数据生成"><span class="nav-number">4.</span> <span class="nav-text">测试数据生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模板模式"><span class="nav-number">4.1.</span> <span class="nav-text">模板模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关操作"><span class="nav-number">4.2.</span> <span class="nav-text">数据库相关操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目回顾"><span class="nav-number">5.</span> <span class="nav-text">项目回顾</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

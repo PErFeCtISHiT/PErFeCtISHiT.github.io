@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="汇编,cpp,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用OS实现IO说明代码参考了orange’s的源码，从chapter7/n开始进行改动，在keyboard.c里增加了mode全局变量，用来表示与查找模式有关的状态并在console.c里使用了这个变量，在console.h里增加了几种颜色变量，修改了keyboard.c,console.c,tty.c,tty.c里新增了根据时钟刷新console，search接口，tab键的判断。console">
+<meta name="keywords" content="汇编,cpp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="os_io">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/os-io/index.html">
+<meta property="og:site_name" content="somnus">
+<meta property="og:description" content="用OS实现IO说明代码参考了orange’s的源码，从chapter7/n开始进行改动，在keyboard.c里增加了mode全局变量，用来表示与查找模式有关的状态并在console.c里使用了这个变量，在console.h里增加了几种颜色变量，修改了keyboard.c,console.c,tty.c,tty.c里新增了根据时钟刷新console，search接口，tab键的判断。console">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-09T11:54:49.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="os_io">
+<meta name="twitter:description" content="用OS实现IO说明代码参考了orange’s的源码，从chapter7/n开始进行改动，在keyboard.c里增加了mode全局变量，用来表示与查找模式有关的状态并在console.c里使用了这个变量，在console.h里增加了几种颜色变量，修改了keyboard.c,console.c,tty.c,tty.c里新增了根据时钟刷新console，search接口，tab键的判断。console">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/os-io/">
+
+
+
+
+
+  <title>os_io | somnus</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">somnus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/os-io/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">os_io</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-15T03:02:50+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="用OS实现IO"><a href="#用OS实现IO" class="headerlink" title="用OS实现IO"></a>用OS实现IO</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>代码参考了orange’s的源码，从chapter7/n开始进行改动，在keyboard.c里增加了mode全局变量，用来表示与查找模式有关的状态并在console.c里使用了这个变量，在console.h里增加了几种颜色变量，修改了keyboard.c,console.c,tty.c,tty.c里新增了根据时钟刷新console，search接口，tab键的判断。console.c里新增了search逻辑，清屏逻辑，tab逻辑，修改了退格键的逻辑来实现精细处理，keyboard.c新增了sec判断，回车判断来实现search的状态转换</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h4 id="这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。"><a href="#这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。" class="headerlink" title="这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。"></a>这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。</h4><h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><h5 id="keyboard-c"><a href="#keyboard-c" class="headerlink" title="keyboard.c"></a>keyboard.c</h5><p>键盘的代码中分析了键盘中断的端口代码，将结果告诉tty，tty根据不同的按键进行不同的操作，这里键盘响应都是以按下某个键作为开始响应，而抬起大多数没有考虑，也符合常理。（考虑make，忽略break）。</p>
+<h5 id="tty-c"><a href="#tty-c" class="headerlink" title="tty.c"></a>tty.c</h5><p>tty接收键盘传来的指令，用console.c显示，orange’s中支持多个tty，这里只开了一个。</p>
+<h5 id="console-c"><a href="#console-c" class="headerlink" title="console.c"></a>console.c</h5><p>console作为显示，需要显示东西时，可以先声明一个char*，指向当前console所显示的位置，然后修改其后面的内容，显示到console上，再修改cursor，指向当前输入。</p>
+<h5 id="文件组织结构"><a href="#文件组织结构" class="headerlink" title="文件组织结构"></a>文件组织结构</h5><p>orange’s的源码参考了c语言的组织方式，有lib，有include，参考这个结构，在对应的lib里加自己需要的lib函数，在include里面加需要的头文件，由于是在自己的os上运行，所以没有&lt;stdio.h&gt;等等的c语言头文件，所以在写c语言代码时，只能使用自己写的函数，而且目前还没有尝试过debug，还好问题不是很大……</p>
+<h5 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h5><p>参考orange’s，完善了makefile，clean，buildimg，make，run。makefile是真的好用。。。。64位linux的makefile需要注意在所有的gcc指令后面添加-m32生成32位.o文件，在ld指令后面添加-m elf_i386。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/汇编/" rel="tag"># 汇编</a>
+          
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/22/fat12/" rel="next" title="fat12">
+                <i class="fa fa-chevron-left"></i> fat12
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/15/w-s-jpa-hibernate/" rel="prev" title="w/s jpa+hibernate">
+                w/s jpa+hibernate <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sf.png" alt="John Doe">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用OS实现IO"><span class="nav-number">1.</span> <span class="nav-text">用OS实现IO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">1.2.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#细节"><span class="nav-number">1.2.1.</span> <span class="nav-text">细节</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#keyboard-c"><span class="nav-number">1.2.1.0.1.</span> <span class="nav-text">keyboard.c</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tty-c"><span class="nav-number">1.2.1.0.2.</span> <span class="nav-text">tty.c</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#console-c"><span class="nav-number">1.2.1.0.3.</span> <span class="nav-text">console.c</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文件组织结构"><span class="nav-number">1.2.1.0.4.</span> <span class="nav-text">文件组织结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#makefile"><span class="nav-number">1.2.1.0.5.</span> <span class="nav-text">makefile</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
