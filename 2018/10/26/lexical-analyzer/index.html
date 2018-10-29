@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="java,编译原理,">
 
 
 
@@ -79,14 +79,21 @@
 
 
 
+<meta name="description" content="动机&amp;amp;目标本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。 内容描述本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产">
+<meta name="keywords" content="java,编译原理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lexical analyzer">
+<meta property="og:title" content="lexical analyzer实验报告">
 <meta property="og:url" content="http://yoursite.com/2018/10/26/lexical-analyzer/index.html">
 <meta property="og:site_name" content="somnus">
+<meta property="og:description" content="动机&amp;amp;目标本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。 内容描述本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-26T11:33:33.525Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/26/images/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/26/images/2.jpg">
+<meta property="og:updated_time" content="2018-10-29T12:28:57.018Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lexical analyzer">
+<meta name="twitter:title" content="lexical analyzer实验报告">
+<meta name="twitter:description" content="动机&amp;amp;目标本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。 内容描述本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/26/images/1.png">
 
 
 
@@ -122,7 +129,7 @@
 
 
 
-  <title>lexical analyzer | somnus</title>
+  <title>lexical analyzer实验报告 | somnus</title>
   
 
 
@@ -246,7 +253,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">lexical analyzer</h1>
+          <h1 class="post-title" itemprop="name headline">lexical analyzer实验报告</h1>
         
 
         <div class="post-meta">
@@ -268,6 +275,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -296,7 +325,118 @@
       
 
       
-        
+        <h1 id="动机-amp-目标"><a href="#动机-amp-目标" class="headerlink" title="动机&amp;目标"></a>动机&amp;目标</h1><p>本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。</p>
+<h1 id="内容描述"><a href="#内容描述" class="headerlink" title="内容描述"></a>内容描述</h1><p>本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产生这组字符流中匹配正则表达式的token序列。</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ul>
+<li><p>lex的构造参考了《编译原理》的3.9节，涉及到的算法有：</p>
+<ul>
+<li>正则表达式的中缀转后缀</li>
+<li>后缀正则表达式转化为正则表达式的抽象语法树</li>
+<li>计算抽象语法树各位置节点的nullable，firstpos，lastpos，followpos</li>
+<li>根据抽象语法树构造DFA</li>
+</ul>
+</li>
+<li><p>补全计算nullable、firstpos、lastpos、followpos的计算规则</p>
+<p>| 结点n             | nullable(n)                   | firstpos(n)                                                  | lastpos(n)                                                   | followpos                                               |<br>| —————– | —————————– | ———————————————————— | ———————————————————— | ——————————————————- |<br>| ϵ叶子节点         | true                          | null                                                         | null                                                         |                                                         |<br>| 位置为i的叶子节点 | false                         | {i}                                                          | {i}                                                          |                                                         |<br>| or节点n=c1|c2    | nullable(c1) or nullable(c2)  | firstpos(c1) or firstpos (c2)                                | lastpos(c1) or lastpos(c2)                                   |                                                         |<br>| cat节点n=c1|c2   | nullable(c1) and nullable(c2) | if(nullable(c1))                           firstpos(c1) or firstpos (c2)                  else firstpos(c1) | if(nullable(c2))                           firstpos(c1) or firstpos (c2)                  else firstpos(c2) | for(i in lastpos(c1)) put firstpos(c2) in followpos(i)  |<br>| star节点n=c1*     | true                          | firstpos(c1)                                                 | lastpos(c1)                                                  | for(i in lastpos(n))    put firstpos(n) in followpos(i) |</p>
+</li>
+<li><p>lexical analyzer对字符流的处理采用了单字节预读的方法，从输入缓冲区取一个字符放到peek中，根据当前状态、peek和DFA决定下一状态。</p>
+</li>
+<li><p>错误处理：</p>
+<ul>
+<li>合法字符检查，构造了一张标识符表，可以用来检查正则表达式或者字符流中的字符是否都在处理范围内。</li>
+</ul>
+<p><img src="..\images\1.png" alt="1540775319195"></p>
+<ul>
+<li>正则表达式出错，在第一步将中缀表达式转换为后缀表达式时，便对输入字符进行了检查，如果出错便会停止后续工作。</li>
+<li>字符流出错，预读区peek检测到一个非法字符时，或者在一个非接受状态接收了不合适的字符时，会停止后续工作。</li>
+</ul>
+</li>
+</ul>
+<h1 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h1><ul>
+<li>《编译原理》中假设正则表达式的接受状态为’#’，这里经过实践后如果将接受状态都设置为’#’不会出现问题，但是尝试去掉’#’时产生了一些问题（后续说明），因此假设正则表达式的接收状态为’#’。</li>
+<li>正则表达式中形如ab这样的简写用a&amp;b代替，假设构造的lex只能识别’*’, ‘|’, ‘&amp;’(连接符号), ‘(‘, ‘)’ 这几种运算符和标识符表中的标识符所组成的正则表达式，其中标识符表可以手动修改。</li>
+<li>假设输入字符流以!结束（!后面还有字符则不做处理)</li>
+<li>对于匹配多个正则表达式的情况，假设以最长前缀来进行匹配。</li>
+</ul>
+<h1 id="FA描述"><a href="#FA描述" class="headerlink" title="FA描述"></a>FA描述</h1><p>实验中的lex可以对任意只含’*’, ‘|’, ‘&amp;’, ‘(‘, ‘)’ 和标识符的正则表达式进行处理，这里选择了三组正则表达式：</p>
+<ul>
+<li><p>(a|b)*&amp;a&amp;b&amp;b&amp;#</p>
+<p>a&amp;a&amp;a&amp;#</p>
+</li>
+<li><p>a&amp;a&amp;a&amp;#</p>
+<p>b&amp;b&amp;b&amp;#</p>
+<p>c&amp;c&amp;c&amp;#</p>
+</li>
+<li><p>(a|b)*&amp;a&amp;(a|b)&amp;#</p>
+<p>(a|b)*&amp;a&amp;(a|b)&amp;(a|b)&amp;#</p>
+<p>(a|b)*&amp;a&amp;(a|b)&amp;(a|b)&amp;(a|b)&amp;#</p>
+</li>
+</ul>
+<p>正则表达式的语法分析树（以第一组正则表达式为例）</p>
+<p><img src="..\images\2.jpg" alt="1540814346584"></p>
+<p>（程序中使用Set存储DFAs，因此DFA的序号不是从开始1到结束n的，但是不影响结果）第一组正则表达式的DFA：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>标识</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>6</td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>5</td>
+<td>7</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>6</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>2</td>
+<td>3</td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1</td>
+<td>6</td>
+<td>START</td>
+</tr>
+</tbody>
+</table>
+<p>第二组正则表达式的DFA：</p>
+
       
     </div>
     
@@ -311,6 +451,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/编译原理/" rel="tag"># 编译原理</a>
+          
+        </div>
+      
 
       
       
@@ -320,8 +468,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/26/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/10/12/数据库设计-移动运营商业务数据库说明文档/" rel="next" title="数据库设计-移动运营商业务数据库">
+                <i class="fa fa-chevron-left"></i> 数据库设计-移动运营商业务数据库
               </a>
             
           </div>
@@ -380,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -398,7 +555,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -420,7 +577,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -443,6 +600,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#动机-amp-目标"><span class="nav-number">1.</span> <span class="nav-text">动机&amp;目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内容描述"><span class="nav-number">2.</span> <span class="nav-text">内容描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#假设"><span class="nav-number">4.</span> <span class="nav-text">假设</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FA描述"><span class="nav-number">5.</span> <span class="nav-text">FA描述</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
