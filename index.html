@@ -713,7 +713,7 @@
 <li><p>DFA状态的最小化：《编译原理》中对DFA状态的最小化所描述的算法是不能直接拿来编程的，因为对一个划分中的每个分组，将该分组分为更小的组，这个分组的方法是通过观察法实现的，因此将该算法改良为可编程算法，（参考本文档Core Algorithms中的由DFA构造具有最少状态的DFA）取出G中的每个状态，来判断它是否能加入新划分的某个分组中，若不能加入，则新增分组。</p>
 </li>
 </ul>
-<h1 id="Your-feelings-and-comments"><a href="#Your-feelings-and-comments" class="headerlink" title="Your feelings and comments"></a>Your feelings and comments</h1><ul>
+<h1 id="Feelings-and-Comments"><a href="#Feelings-and-Comments" class="headerlink" title="Feelings and Comments"></a>Feelings and Comments</h1><ul>
 <li>Lex模块结合《编译原理》完成，练习使用了多种数据结构：tree，map，set，stack，对于阅读一个算法的伪代码或者文字描述来转换成实际代码有了提升。</li>
 <li>《编译原理》中的预备知识很重要，比如NFA的重要状态一节解释了为什么需要一个#作为结束状态，在设计lex时应该按照先构造(r)#的DFA，再根据#的接受状态还原r的DFA，没有遵循这一流程导致还原r困难。</li>
 </ul>
