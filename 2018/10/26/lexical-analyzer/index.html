@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="动机&amp;amp;目标本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。 内容描述本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产">
+<meta name="description" content="Motivation/Aim本次实验所预计的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。为了实现此目标，需要两个模块：lex模块，接收正则表达式组，输出DFA状态集。lexical analyzer模块：接收字符流，根据DFA状态集，输出oken序列。 Content descr">
 <meta name="keywords" content="java,编译原理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lexical analyzer实验报告">
 <meta property="og:url" content="http://yoursite.com/2018/10/26/lexical-analyzer/index.html">
 <meta property="og:site_name" content="somnus">
-<meta property="og:description" content="动机&amp;amp;目标本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。 内容描述本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产">
+<meta property="og:description" content="Motivation/Aim本次实验所预计的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。为了实现此目标，需要两个模块：lex模块，接收正则表达式组，输出DFA状态集。lexical analyzer模块：接收字符流，根据DFA状态集，输出oken序列。 Content descr">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/10/26/images/1.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/26/images/2.jpg">
-<meta property="og:updated_time" content="2018-10-29T12:28:57.018Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/26/images/3.png">
+<meta property="og:updated_time" content="2018-10-30T12:45:20.799Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lexical analyzer实验报告">
-<meta name="twitter:description" content="动机&amp;amp;目标本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。 内容描述本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产">
-<meta name="twitter:image" content="http://yoursite.com/2018/10/26/images/1.png">
+<meta name="twitter:description" content="Motivation/Aim本次实验所预计的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。为了实现此目标，需要两个模块：lex模块，接收正则表达式组，输出DFA状态集。lexical analyzer模块：接收字符流，根据DFA状态集，输出oken序列。 Content descr">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/26/images/2.jpg">
 
 
 
@@ -343,15 +343,16 @@
       
 
       
-        <h1 id="动机-amp-目标"><a href="#动机-amp-目标" class="headerlink" title="动机&amp;目标"></a>动机&amp;目标</h1><p>本次实验所达成的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。</p>
-<h1 id="内容描述"><a href="#内容描述" class="headerlink" title="内容描述"></a>内容描述</h1><p>本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产生这组字符流中匹配正则表达式的token序列。</p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ul>
+        <h1 id="Motivation-Aim"><a href="#Motivation-Aim" class="headerlink" title="Motivation/Aim"></a>Motivation/Aim</h1><p>本次实验所预计的目标是只需要接收一组正则表达式，和字符流，便可以产生匹配正则表达式的token序列，其中如果有某个串匹配多个正则表达式，则选择最长前缀的串作为token序列的输出。为了实现此目标，需要两个模块：lex模块，接收正则表达式组，输出DFA状态集。lexical analyzer模块：接收字符流，根据DFA状态集，输出oken序列。</p>
+<h1 id="Content-description"><a href="#Content-description" class="headerlink" title="Content description"></a>Content description</h1><p>本次实验构造了一个lex词法分析器生成工具，输入一组正则表达式r，可以产生一个识别L(r)的DFA D，由此来构造一个lexical analyzer，利用lex产生的DFA和输入的字符流来产生这组字符流中匹配正则表达式的token序列。</p>
+<h1 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h1><ul>
 <li><p>lex的构造参考了《编译原理》的3.9节，涉及到的算法有：</p>
 <ul>
 <li>正则表达式的中缀转后缀</li>
 <li>后缀正则表达式转化为正则表达式的抽象语法树</li>
 <li>计算抽象语法树各位置节点的nullable，firstpos，lastpos，followpos</li>
 <li>根据抽象语法树构造DFA</li>
+<li>根据DFA状态集和DFAturn构造最小DFA</li>
 </ul>
 </li>
 <li><p>补全计算nullable、firstpos、lastpos、followpos的计算规则</p>
@@ -361,22 +362,24 @@
 </li>
 <li><p>错误处理：</p>
 <ul>
-<li>合法字符检查，构造了一张标识符表，可以用来检查正则表达式或者字符流中的字符是否都在处理范围内。</li>
-</ul>
-<p><img src="..\images\1.png" alt="1540775319195"></p>
-<ul>
-<li>正则表达式出错，在第一步将中缀表达式转换为后缀表达式时，便对输入字符进行了检查，如果出错便会停止后续工作。</li>
+<li><p>合法字符检查，构造了一张标识符表，可以用来检查正则表达式或者字符流中的字符是否都在处理范围内。</p>
+</li>
+<li><p>正则表达式出错，在第一步将中缀表达式转换为后缀表达式时，便对输入字符进行了检查，如果出错便会停止后续工作。</p>
+</li>
 <li>字符流出错，预读区peek检测到一个非法字符时，或者在一个非接受状态接收了不合适的字符时，会停止后续工作。</li>
 </ul>
 </li>
 </ul>
-<h1 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h1><ul>
-<li>《编译原理》中假设正则表达式的接受状态为’#’，这里经过实践后如果将接受状态都设置为’#’不会出现问题，但是尝试去掉’#’时产生了一些问题（后续说明），因此假设正则表达式的接收状态为’#’。</li>
-<li>正则表达式中形如ab这样的简写用a&amp;b代替，假设构造的lex只能识别’*’, ‘|’, ‘&amp;’(连接符号), ‘(‘, ‘)’ 这几种运算符和标识符表中的标识符所组成的正则表达式，其中标识符表可以手动修改。</li>
+<h1 id="Assumptions"><a href="#Assumptions" class="headerlink" title="Assumptions"></a>Assumptions</h1><ul>
+<li><p>正则表达式中形如ab这样的简写用a&amp;b代替，后文中均用’a&amp;b’这样的写法来替代正则表达式’ab’。用’&amp;’替代连接符号。</p>
+</li>
+<li><p>《编译原理》中假设正则表达式的接受状态为’#’，这里经过实践后如果将接受状态都设置为’#’不会出现问题，但是尝试去掉’#’时产生了一些问题（后续说明），因此假设正则表达式的接收状态为’#’。</p>
+</li>
+<li>假设构造的lex只能识别’*’, ‘|’, ‘&amp;’(连接符号), ‘(‘, ‘)’ 这几种运算符和标识符表中的标识符所组成的正则表达式。</li>
 <li>假设输入字符流以!结束（!后面还有字符则不做处理)</li>
 <li>对于匹配多个正则表达式的情况，假设以最长前缀来进行匹配。</li>
 </ul>
-<h1 id="FA描述"><a href="#FA描述" class="headerlink" title="FA描述"></a>FA描述</h1><p>实验中的lex可以对任意只含’*’, ‘|’, ‘&amp;’, ‘(‘, ‘)’ 和标识符的正则表达式进行处理，这里选择了三组正则表达式：</p>
+<h1 id="FA-descriptions"><a href="#FA-descriptions" class="headerlink" title="FA descriptions"></a>FA descriptions</h1><p>实验中的lex可以对任意只含’*’, ‘|’, ‘&amp;’, ‘(‘, ‘)’ 和标识符的正则表达式进行处理，这里选择了三组正则表达式：</p>
 <ul>
 <li><p>(a|b)*&amp;a&amp;b&amp;b&amp;#</p>
 <p>a&amp;a&amp;a&amp;#</p>
@@ -454,6 +457,269 @@
 </tbody>
 </table>
 <p>第二组正则表达式的DFA：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+<th>标识</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td>7</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>4</td>
+<td></td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>5</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>9</td>
+<td></td>
+<td>7</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td></td>
+<td></td>
+<td></td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>8</td>
+<td>6</td>
+<td>4</td>
+<td>1</td>
+<td>START</td>
+</tr>
+<tr>
+<td>9</td>
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td></td>
+<td></td>
+<td>ACCEPT</td>
+</tr>
+</tbody>
+</table>
+<p>第三组正则表达式的DFA：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>标识</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>4</td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>6</td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>12</td>
+<td>5</td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>5</td>
+<td>9</td>
+<td>2</td>
+<td>ACCEPT</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>6</td>
+<td>START</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Data-Structures"><a href="#Data-Structures" class="headerlink" title="Data Structures"></a>Data Structures</h1><ul>
+<li>实验中涉及到的数据结构有Attri，DFAGroup，DFAState，NodeType，RETreeNode，Token</li>
+<li>NodeType：枚举了一个节点的类型，SYNC标识终结符节点,STAR标识*节点,OR标识|节点,CAT标识&amp;节点</li>
+<li>RETreeNode：构造正则分析树的节点类，存放了节点的类型，节点的位置（如果是一个位置结点），节点标识符的值，左右子节点，nullable、firstpos、lastpos、followpos这四个用来产生DFA的关系结构。</li>
+<li>Attri：枚举了一个状态的类型，START标识开始状态，ACCEPT标识接受状态，SIMPLE标识一般状态</li>
+<li>DFAState：存放了DFA的单个状态的状态号、状态类型、未最小化前的转换表（map）、最小化DFA的转换表（map）。</li>
+<li>DFAGroup：存放了一个DFA分组，用来对DFA进行最小化，含有一个Set\<dfastate>。</dfastate></li>
+<li>Token存放了分析字符流产生的词法单元。</li>
+</ul>
+<h1 id="Core-Algorithms"><a href="#Core-Algorithms" class="headerlink" title="Core Algorithms"></a>Core Algorithms</h1><ul>
+<li><p>Lex模块：</p>
+<ul>
+<li><p>多个正则表达式的组合，多个正则表达式可以使用’|’串联，需要注意给每个正则表达式最外面添加一层’()’防止运算次序出错。</p>
+<ul>
+<li>输入：多个正则表达式的集合A</li>
+<li>输出：一个组合的正则表达式</li>
+<li>方法：<ul>
+<li>对于A中的每个正则表达式a，添加一层’()’，添加一个’|’</li>
+<li>删除最后一个’|’</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>正则表达式的中缀转后缀，原因：利用后缀表达式，可以十分方便地构造一棵正则表达式分析树。</p>
+<p>正则表达式中的运算符有’|’,’<em>‘,’&amp;’,’(‘,’)’,他们的优先级为’()’&gt;’\</em>‘&gt;’&amp;’&gt;’|’。使用一个操作符栈来完成中缀转后缀的过程。：</p>
+<ul>
+<li>输入：一个中缀正则表达式</li>
+<li>输出：该正则表达式的后缀形式</li>
+<li>方法：<ul>
+<li>构造一个空操作符栈</li>
+<li>遇到操作数，则直接输出。</li>
+<li>遇到操作符，则依次弹出A中的操作符并输出，直到栈顶出现优先级更低的操作符或者’(‘。然后压入操作符。</li>
+<li>遇到’(‘，直接压栈。</li>
+<li>遇到’),依次弹出栈中的操作符并输出，直到栈顶出现’(‘，弹出’(‘。</li>
+<li>最后，将栈中剩余操作符依次弹出。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>后缀正则表达式构造语法分析树（过程中同时计算各节点的nullable，firstpos，lastpos，计算方法参考Methods中的补全表）：</p>
+<ul>
+<li>输入：后缀正则表达式</li>
+<li>输出：该正则表达式的语法分析树</li>
+<li>方法：<ul>
+<li>使用一个栈A作为节点寄存栈，节点里存放的是当前抽象意义上的操作数。</li>
+<li>遇到一个操作数，则构造一个节点，压栈。</li>
+<li>遇到’<em>‘，从栈里弹出一个节点作为\</em>的子节点，压栈。</li>
+<li>遇到’|’或者’&amp;’，从栈里弹出两个节点作为它的右左节点（注意顺序），第一个弹出的是右节点，压栈。</li>
+<li>如果正则表达式正确，栈中最后会剩一个节点，即整个正则分析树的根节点。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>先序遍历正则分析树，产生所有位置节点的followpos，因为计算followpos的方法只涉及firstpos和lastpos，因此可以采用先序遍历的方法，自顶向下构造：</p>
+<ul>
+<li>输入：正则语法分析树</li>
+<li>输出：该树位置节点的followpos</li>
+<li>方法：<ul>
+<li>先序遍历该树，直到最后一个节点：</li>
+<li>对于cat节点，cat节点左子女的lastpos的followpos肯定包含cat节点右子女的firstpos</li>
+<li>对应star节点，因为可以自环，所有自身的lastpos的followpos肯定包含自身的firstpos</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>由正则分析树构造DFA状态集</p>
+<ul>
+<li>输入：正则分析树</li>
+<li>输出：DFA状态集和DFATurn</li>
+<li>方法：<ul>
+<li>构造两个状态集，已标记状态集A和未标记状态集B。</li>
+<li>将根节点的firstpos作为开始状态加入未标记状态集</li>
+<li>只要未标记状态集非空，便选择一个状态S将其置于标记状态集，对于每个标识符a，令U为该状态和标识符a对应的所有位置p的followpos(p)的并集，如果U不在状态集中，则将U加入到未标记状态集中，同时在S的DFATurn map中增加一条（a，U）。</li>
+<li>未标记状态集为空，则已标记状态集中便是DFA的所有状态，且每个状态的DFATurn合到一起便是DFA转换表。</li>
+<li>删除A中的空状态，由于算法实际编写时的缺陷，可能会产生一定数量的空状态：该状态没有任何位置节点，删去这样的空状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>由DFA构造具有最少状态的DFA（与《编译原理》略有不同）：</p>
+<ul>
+<li><p>输入：DFA状态集和各状态的DFATurn</p>
+</li>
+<li><p>输出：具有最少状态的DFA和各状态的DFATurn</p>
+</li>
+<li><p>方法：</p>
+<ul>
+<li>构造一个划分A，包含两个组p和q，p是DFA的接受状态组，q是非接受状态组</li>
+<li>构造一个空的新划分B</li>
+<li>对于划分A中的每个组a的所有状态s，检查s能否加入到新划分的一个分组里，可以加到该分组的条件是该分组内的某个状态s1和s对于所有终结符的下一转换状态在A的同一个分组里。如果可以加入，则加入，否则，新建一个分组b，分配b的id号，将s加入分组b，将b加入到新划分B中。</li>
+<li>最后，如果B和A的大小相同，则代表算法第一阶段结束，进入第二阶段，否则用B代替A，新建一个空划分代替B，重复算法第三步。</li>
+<li>对于每个分组，选择一个代表状态s，将s的id号设置为该分组的id号，将s的turn状态改为原来turn状态所在其他分组的代表状态s。</li>
+<li>新产生的状态s的集合即为新的DFA集，每个s有自己的DFATurn。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>lexical analyzer模块</p>
+<ul>
+<li><p>根据字符流和DFA产生一个token</p>
+<ul>
+<li><p>输入：字符流、Set\<dfastate></dfastate></p>
+</li>
+<li><p>输出：一个合法token</p>
+</li>
+<li>方法：<ul>
+<li>使用一个单字节peek作为预读， 一个状态S赋值为DFA的开始状态，过滤掉空字符，对于m每个合法的peek，找到DFATurn（S，peek）将下一状态作为S，直到遇到非法字符或者#，检查S是否是接受状态，如果是接受状态，则返回这一过程中产生的这个token。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h1><p>测试用例位于test包内，共有三组，对于上述的每组正则表达式组i，构造了两个输入流Streamia，Streamib，测试时首先使用lex模块接收正则表达式组i输出DFA状态集，再调用lexical analyzer模块接收输入流，利用DFA状态集产生token序列。所以每个测试用例输出的内容有DFA和token序列。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">DFA states</span><br><span class="line">id: 1</span><br><span class="line">type: ACCEPT</span><br><span class="line">turn :</span><br><span class="line">a: 7</span><br><span class="line">b: 4</span><br><span class="line">c: </span><br><span class="line">#: </span><br><span class="line"></span><br><span class="line">id: 2</span><br><span class="line">type: ACCEPT</span><br><span class="line">turn :</span><br><span class="line">a: 3</span><br><span class="line">b: 6</span><br><span class="line">c: </span><br><span class="line">#: </span><br><span class="line"></span><br><span class="line">id: 3</span><br><span class="line">type: SIMPLE</span><br><span class="line">turn :</span><br><span class="line">a: 5</span><br><span class="line">b: 4</span><br><span class="line">c: </span><br><span class="line">#: </span><br><span class="line"></span><br><span class="line">id: 4</span><br><span class="line">type: ACCEPT</span><br><span class="line">turn :</span><br><span class="line">a: 12</span><br><span class="line">b: 5</span><br><span class="line">c: </span><br><span class="line">#: </span><br><span class="line"></span><br><span class="line">id: 5</span><br><span class="line">type: ACCEPT</span><br><span class="line">turn :</span><br><span class="line">a: 9</span><br><span class="line">b: 2</span><br><span class="line">c: </span><br><span class="line">#: </span><br><span class="line"></span><br><span class="line">id: 6</span><br><span class="line">type: START</span><br><span class="line">turn :</span><br><span class="line">a: 3</span><br><span class="line">b: 6</span><br><span class="line">c: </span><br><span class="line">#: </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tokens on stream 3a</span><br><span class="line">aaa</span><br><span class="line">aaaa</span><br><span class="line">aaaaa</span><br><span class="line">bbaa</span><br><span class="line">bbaab</span><br><span class="line">bbaaba</span><br><span class="line"></span><br><span class="line">tokens on stream 3b</span><br><span class="line">aaabbb</span><br><span class="line">aaaaabb</span><br><span class="line">aaaaaabbab</span><br><span class="line">bbaaabb</span><br><span class="line">bbaabbb</span><br><span class="line">bbaabab</span><br></pre></td></tr></table></figure>
+<h1 id="Problems-occurred-and-related-solutions"><a href="#Problems-occurred-and-related-solutions" class="headerlink" title="Problems occurred and related solutions"></a>Problems occurred and related solutions</h1><ul>
+<li><p>循环结构太过复杂导致分析问题困难，如图是上述算法中的DFA-&gt;DFA with minimum states的初始版本，其中使用了5层嵌套循环，出错时调试了好久。解决方案：将该算法分解为三步，DFA-&gt;DFA with minimum states、寻找一个状态能否加入到新的划分里、判断两个状态是否属于同一划分。</p>
+<p><img src="..\images\3.png" alt="1540860008570"></p>
+</li>
+<li><p>正则表达式以’#’为结束符，《编译原理》中在分析NFA的重要状态时说：“我们可以在一个正则表达式r的右端连接一个独特的右端结束标记符#，使得r的结束状态增加一个在#上的转换，使之成为(r)#NFA的重要状态，换句话说，通过使用扩展的正则表达式(r)#，我们可以在构造过程中不考虑接受状态的问题。当构造过程结束后，任何在#上有离开转换状态的状态必然是一个结束状态。”这一段话在手动操作时很容易实现，先增加一个#作为结束符，在最后对所有接受状态做修正即可，然而编码中没有找到可以修正接受状态的方法，因为构造最小状态集的DFA改变了与#有关的状态的转换情况，如果不增加#作为结束符，则又会因为缺少重要状态导致产生了错误的DFA，因此在最后保留了#这一结束符。这一问题《编译原理》中也没有给出“构造过程结束后，任何在#上有离开转换状态的状态必然是一个结束状态”该如何来实现，存疑。</p>
+</li>
+<li><p>DFA状态的最小化：《编译原理》中对DFA状态的最小化所描述的算法是不能直接拿来编程的，因为对一个划分中的每个分组，将该分组分为更小的组，这个分组的方法是通过观察法实现的，因此将该算法改良为可编程算法，（参考本文档Core Algorithms中的由DFA构造具有最少状态的DFA）取出G中的每个状态，来判断它是否能加入新划分的某个分组中，若不能加入，则新增分组。</p>
+</li>
+</ul>
+<h1 id="Your-feelings-and-comments"><a href="#Your-feelings-and-comments" class="headerlink" title="Your feelings and comments"></a>Your feelings and comments</h1><ul>
+<li>Lex模块结合《编译原理》完成，练习使用了多种数据结构：tree，map，set，stack，对于阅读一个算法的伪代码或者文字描述来转换成实际代码有了提升。</li>
+<li>《编译原理》中的预备知识很重要，比如NFA的重要状态一节解释了为什么需要一个#作为结束状态，在设计lex时应该按照先构造(r)#的DFA，再根据#的接受状态还原r的DFA，没有遵循这一流程导致还原r困难。</li>
+</ul>
 
       
     </div>
@@ -628,7 +894,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#动机-amp-目标"><span class="nav-number">1.</span> <span class="nav-text">动机&amp;目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内容描述"><span class="nav-number">2.</span> <span class="nav-text">内容描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#假设"><span class="nav-number">4.</span> <span class="nav-text">假设</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FA描述"><span class="nav-number">5.</span> <span class="nav-text">FA描述</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation-Aim"><span class="nav-number">1.</span> <span class="nav-text">Motivation/Aim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-description"><span class="nav-number">2.</span> <span class="nav-text">Content description</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Methods"><span class="nav-number">3.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Assumptions"><span class="nav-number">4.</span> <span class="nav-text">Assumptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FA-descriptions"><span class="nav-number">5.</span> <span class="nav-text">FA descriptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Structures"><span class="nav-number">6.</span> <span class="nav-text">Data Structures</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Core-Algorithms"><span class="nav-number">7.</span> <span class="nav-text">Core Algorithms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Use-cases"><span class="nav-number">8.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problems-occurred-and-related-solutions"><span class="nav-number">9.</span> <span class="nav-text">Problems occurred and related solutions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Your-feelings-and-comments"><span class="nav-number">10.</span> <span class="nav-text">Your feelings and comments</span></a></li></ol></div>
             
 
           </div>
