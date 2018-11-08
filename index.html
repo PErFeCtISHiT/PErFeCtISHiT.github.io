@@ -247,6 +247,125 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/LR-1-parser/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/08/LR-1-parser/" itemprop="url">LR(1) parser</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-08T13:50:11+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/lexical-analyzer/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1983,153 +2102,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/ssh-annotation/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/21/ssh-annotation/" itemprop="url">ssh annotation</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-21T23:16:28+08:00">
-                2018-05-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/" itemprop="url" rel="index">
-                    <span itemprop="name">开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="ssh框架中的annotation"><a href="#ssh框架中的annotation" class="headerlink" title="ssh框架中的annotation"></a>ssh框架中的annotation</h1><h2 id="controller，-service，-repository，-component"><a href="#controller，-service，-repository，-component" class="headerlink" title="@controller，@service，@repository，@component"></a>@controller，@service，@repository，@component</h2><p>分别对应控制器类，响应url，服务类，提供服务接口，持久化类，对数据库进行持久化，这里的注解都要加到实体类上而不是接口上（serviceimpl）。component对应一般组件类。</p>
-<h2 id="restcontroller，-responsebody，-Jsonignore"><a href="#restcontroller，-responsebody，-Jsonignore" class="headerlink" title="@restcontroller，@responsebody，@Jsonignore"></a>@restcontroller，@responsebody，@Jsonignore</h2><p>在请求url希望返回json时可以对类加restcontroller，效果等同于controller+responsebody，使用jsonignore来取消json装配</p>
-<h2 id="Resource，-Autowired"><a href="#Resource，-Autowired" class="headerlink" title="@Resource，@Autowired"></a>@Resource，@Autowired</h2><p>@resource通过名称匹配，@autowired通过类型匹配，用来注入bean，@resource可以减少与spring之间的耦合。</p>
-<h2 id="Configuration-bean"><a href="#Configuration-bean" class="headerlink" title="@Configuration @bean"></a>@Configuration @bean</h2><p>configuration启动spring容器，注册bean（在里面写需要的bean）</p>
-<h2 id="Entity，-Table，-ManyToOne，-Basic…"><a href="#Entity，-Table，-ManyToOne，-Basic…" class="headerlink" title="@Entity，@Table，@ManyToOne，@Basic….."></a>@Entity，@Table，@ManyToOne，@Basic…..</h2><p>与数据有关的注解，enity表示实体类，table表示表，manytoone等表示映射关系，basic表示基本属性</p>
-<h2 id="Scheduled"><a href="#Scheduled" class="headerlink" title="@Scheduled"></a>@Scheduled</h2><p>spring 定时任务，本来想重载springapplication.run，，这个注解可以定时运行里面的方法，类似线程。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2182,7 +2154,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
