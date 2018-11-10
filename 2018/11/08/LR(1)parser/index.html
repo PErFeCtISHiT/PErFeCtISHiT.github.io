@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,编译原理,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、parsing tab">
+<meta name="keywords" content="java,编译原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LR(1) parser">
+<meta property="og:url" content="http://yoursite.com/2018/11/08/LR(1)parser/index.html">
+<meta property="og:site_name" content="somnus">
+<meta property="og:description" content="Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、parsing tab">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/images/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/images/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/images/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/images/6.jpg">
+<meta property="og:updated_time" content="2018-11-10T11:22:38.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LR(1) parser">
+<meta name="twitter:description" content="Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、parsing tab">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/08/images/2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"Sidebar Position, available value":"left | right (only for Pisces | Gemini).","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/08/LR(1)parser/">
+
+
+
+
+
+  <title>LR(1) parser | somnus</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">somnus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/LR(1)parser/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LR(1) parser</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-08T13:50:11+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><h1 id="Motivation-Aim"><a href="#Motivation-Aim" class="headerlink" title="Motivation/Aim"></a>Motivation/Aim</h1><ul>
+<li>使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。</li>
+<li>实现慌恐模式的错误恢复。</li>
+</ul>
+<h1 id="Content-description"><a href="#Content-description" class="headerlink" title="Content description"></a>Content description</h1><ul>
+<li>文法使用如图的文法，该文件具有二义性</li>
+</ul>
+<p><img src="../images/2.png" alt="1541657491765"></p>
+<ul>
+<li>DFA、parsing table详见相关FA描述</li>
+<li>syntactic parser，语法分析程序，接受token序列，结合上述文法的parsing table，进行语法分析，输出规约序列，最终产生一个语法分析树。</li>
+<li>错误处理例程，用来处理token序列中可能产生的错误输入。</li>
+</ul>
+<h1 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h1><ul>
+<li>LR（1）DFA的构造（见core algorithms）</li>
+<li>LR（1）parsing table的构造（见core algorithms）</li>
+<li>悬空else的处理，对每个else stmt结构，采用最近原则与最近的尚未匹配then stmt匹配，根据这种原则来解决构造parsing table所产生的冲突。假设栈中的内容是if e then stmt，当前输入符号是else，则应该选择移入else来与最近的then相匹配。</li>
+<li>错误处理例程（见related FA descriptions）</li>
+<li>根据输出的规约序列生成语法分析树</li>
+</ul>
+<h1 id="Assumptions"><a href="#Assumptions" class="headerlink" title="Assumptions"></a>Assumptions</h1><ul>
+<li>token序列仅有i，a，t，e，w，d，b，end，c，；这几种，遇到其他token字符时，错误处理例程将发出诊断信息“未标识字符”并跳过这个字符。</li>
+</ul>
+<h1 id="Related-FA-descriptions"><a href="#Related-FA-descriptions" class="headerlink" title="Related FA descriptions"></a>Related FA descriptions</h1><ul>
+<li>LR(1) DFA</li>
+</ul>
+<p><img src="../images/4.jpg" alt=""></p>
+</li>
+</ul>
+<ul>
+<li><p>LR(1) parsing table</p>
+<p>| 状态 | ACTION |      |      |      |      | GOTO |<br>| —- | —— | —- | —- | —- | —- | —- |<br>|      | i      | ；   | e    | a    | $R   | S    |<br>| 0    | s2     | e2   | e2   | s3   | e4   | 1    |<br>| 1    | e3.1   | s4   | e2   | e3.1 | ACC  |      |<br>| 2    | s6     | e2   | e1.1 | s11  | e4   | 5    |<br>| 3    | e2     | r4   | e2   | e2   | r4   |      |<br>| 4    | s2     | e2   | e2   | s3   | e4   | 7    |<br>| 5    | e2     | r2   | s8   | e2   | r2   |      |<br>| 6    | s6     | e2   | e1.2 | s11  | e4   | 10   |<br>| 7    | e3.1   | r3   | e2   | e3.1 | r3   |      |<br>| 8    | s2     | e2   | e2   | s3   | e4   | 12   |<br>| 9    | s6     | e2   | e2   | s11  | e4   | 13   |<br>| 10   | e3.2   | r2   | s14  | e3.2 | r2   |      |<br>| 11   | e2     | r4   | r4   | e2   | r4   |      |<br>| 12   | e3.1   | r1   | e2   | e3.1 | r1   |      |<br>| 13   | e3.2   | r3   | r3   | e3.2 | r3   |      |<br>| 14   | s6     | e2   | e2   | s11  | e4   | 15   |<br>| 15   | e3.2   | r1   | r1   | e3.2 | r1   |      |</p>
+</li>
+<li><p>错误处理例程：</p>
+<ul>
+<li>e1<ul>
+<li>原因：if与else之间缺少S</li>
+<li>解决：输出“if与else之间为空”。如果是e1.1，则将状态5压栈，如果是e1.2，则将状态10压栈，模拟if S，来接收下一个else</li>
+</ul>
+</li>
+<li>e2<ul>
+<li>原因：不应该出现在此处的符号，与前后符号均无法配合的符号。</li>
+<li>解决：输出“非法符号”，将输入流的读头前进一步</li>
+</ul>
+</li>
+<li>e3<ul>
+<li>原因：S与S中间缺少”;”</li>
+<li>解决：输出“语句间缺少;”，如果是e3.1，则将状态4压栈，如果是e3.2，则将状态9压栈，模拟S；S</li>
+</ul>
+</li>
+<li>e4<ul>
+<li>原因：提前结束，直接遇到$R</li>
+<li>解决：输出“语法分析提前结束，栈中的符号仍未匹配”，结束主函数，抛出异常。</li>
+</ul>
+</li>
+</ul>
+<h1 id="Important-Data-Structures"><a href="#Important-Data-Structures" class="headerlink" title="Important Data Structures"></a>Important Data Structures</h1></li>
+<li><p>Action，用来描述预测分析表中的一个单元，标识了该单元的操作类型（移入，规约，错误，结束），操作序号（移入时的下一状态、规约时使用的文法号、错误时调用的错误处理例程）。</p>
+</li>
+<li>Grammar，用来记录一条产生式的左部和右部。</li>
+<li>State，用来描述LR(1)文法中的一个DFA状态集，记录了该状态的状态号和入栈时的标识符。</li>
+<li>ParsingTable，预测分析表，记录了每个状态对应的ACTION和GOTO</li>
+<li><p>ParseTreeNode，分析树节点，每个节点指向自己的左子女和右兄弟，有广度优先遍历的输出节点方法。对于语法分析树T，T的高度为I，则该方法输出I行，每一行依次输出该树该层的所有子节点。</p>
+<h1 id="Core-Algorithms"><a href="#Core-Algorithms" class="headerlink" title="Core Algorithms"></a>Core Algorithms</h1></li>
+<li><p>通过文法的产生式构造LR(1)DFA</p>
+<ul>
+<li>输入：文法+S’-&gt;S的增广文法G’</li>
+<li>输出：LR（1）DFA</li>
+<li>方法：状态内扩展（子自动机调用）和状态间扩展，使用预测符来对需要规约的状态进行规约预测，解决s，r、r，r冲突。</li>
+</ul>
+</li>
+<li><p>通过LR(1)DFA和错误处理例程构造预测分析表</p>
+<ul>
+<li>输入：LR(1)DFA和错误处理例程</li>
+<li>输出：预测分析表</li>
+<li>方法：根据状态间扩展关系和状态内规约情况填写预测分析表的GOTO、shift和reduce项，根据错误处理例程的分类，观察每个状态的核，每个状态的核便是该状态实际入栈时的栈内情况，比如实验中的状态1，它的核是S’-&gt;S.和S’-&gt;S.;S 所以该状态下如果忘记输入分号便会产生错误，调用错误处理例程e3.1来添加分号，将e3.1填入表中，其他错误处理例程的填写方法类似，最终错误处理例程将填充满ACTION表部分。</li>
+</ul>
+</li>
+<li><p>结合预测分析表，接收token序列输出规约序列</p>
+<ul>
+<li>输入：token序列</li>
+<li>输出：产生式规约序列</li>
+<li>方法：建立一个状态栈，状态栈的每一个节点的状态都存储了状态号和栈顶标识符，根据读头指向的输入流和栈顶标识符决定下一状态或者下一可规约序列，中途可能有错误处理和ACC退出。</li>
+</ul>
+</li>
+<li><p>根据规约序列产生语法分析树</p>
+<ul>
+<li><p>输入：规约序列</p>
+</li>
+<li><p>输出：语法分析树的根节点</p>
+</li>
+<li><p>方法：建立一个产生式栈，对规约序列中的每个产生式A，找到里面所有的S，每个S代表它的一个子节点，因此弹出栈中存储的一个节点作为它的子节点，在构造完这个A的所有子节点后，将A压入栈中。分析下一个产生式，直到规约序列的末尾，因为任何一个句子实例B所产生的规约序列中，产生式右部的S的数量正好比产生式数量少一个（把S视为子过程调用），因此此时栈中正好为空，末尾的那个产生式正好是父节点。如图：</p>
+<p><img src="../images/5.jpg" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h1><p>  测试用例共有6组，前三组的输入为符合文法的token序列，后三组分别测试了错误例程e1，e2，e4，（因为e2的优先级高于e3，e3永远不会发生）</p>
+<ol>
+<li><ul>
+<li><p>input：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if if a else a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">reduce list:</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iSeS</span><br><span class="line">S-&gt;iS</span><br><span class="line"></span><br><span class="line">parse tree:</span><br><span class="line">S-&gt;iS  </span><br><span class="line">S-&gt;iSeS    </span><br><span class="line">S-&gt;a   S-&gt;a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>input：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if if a else a else if a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">reduce list:</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iSeS</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iS</span><br><span class="line">S-&gt;iSeS</span><br><span class="line"></span><br><span class="line">parse tree:</span><br><span class="line">S-&gt;iSeS	</span><br><span class="line">S-&gt;iS	S-&gt;iSeS	</span><br><span class="line">S-&gt;a	S-&gt;a	S-&gt;a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>input：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a ; if a ; if a else a ; if if a else a ; a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">reduce list:</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iS</span><br><span class="line">S-&gt;S;S</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iSeS</span><br><span class="line">S-&gt;S;S</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iSeS</span><br><span class="line">S-&gt;iS</span><br><span class="line">S-&gt;S;S</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;S;S</span><br><span class="line"></span><br><span class="line">parse tree:</span><br><span class="line">S-&gt;S;S	</span><br><span class="line">S-&gt;a	S-&gt;S;S	</span><br><span class="line">S-&gt;iS	S-&gt;S;S	</span><br><span class="line">S-&gt;iSeS	S-&gt;S;S	</span><br><span class="line">S-&gt;a	S-&gt;a	S-&gt;iS	S-&gt;a	</span><br><span class="line">S-&gt;a	S-&gt;iSeS	S-&gt;a	S-&gt;a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>input：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if else a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if与else之间为空</span><br><span class="line">reduce list:</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iSeS</span><br><span class="line"></span><br><span class="line">parse tree:</span><br><span class="line">S-&gt;iSeS	</span><br><span class="line">S-&gt;a	S-&gt;a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>input：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if b a else a ; if a a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">不该出现在这里的符号b</span><br><span class="line">不该出现在这里的符号a</span><br><span class="line">reduce list:</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iSeS</span><br><span class="line">S-&gt;a</span><br><span class="line">S-&gt;iS</span><br><span class="line">S-&gt;S;S</span><br><span class="line"></span><br><span class="line">parse tree:</span><br><span class="line">S-&gt;S;S	</span><br><span class="line">S-&gt;iS	S-&gt;iSeS	</span><br><span class="line">S-&gt;a	S-&gt;a	S-&gt;a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>input：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if a else</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">语法分析提前结束，栈中的符号$ if S else 仍未匹配</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="Problems-occurred-and-related-solutions"><a href="#Problems-occurred-and-related-solutions" class="headerlink" title="Problems occurred and related solutions"></a>Problems occurred and related solutions</h1><ul>
+<li><p>多叉树的层次遍历，并且要每层都换行输出。</p>
+<ul>
+<li><p>问题：一开始使用递归方法对多叉树进行层次遍历，但是在每一行输出树的每一层时，递归的方法会出现问题，例如：</p>
+<p><img src="..\images\6.jpg" alt=""></p>
+<p>A单独输出一行并递归输出B,C，B,C输出在同一行，B递归输出D，C递归输出E,F，所以D占一行，E,F占一行，无法做到每一层输出一行。</p>
+</li>
+<li><p>解决：</p>
+<p>使用了队列的方法，每个节点存放一个当前层数，用一个变量i记录当前层数，初始将根节点入队，队列非空时，重复如下操作：</p>
+<ul>
+<li>从队头弹出一个节点n，如果n的层数大于i，则输出一个换行符，i+1。</li>
+<li>输出n的产生式</li>
+<li>如果n的左子节点n1非空，将其层数设置为n+1，入队。</li>
+<li>如果n1的右兄弟节点n2非空，将其层数设置为n+1，入队，用n2替换n1，不断入队n1的右兄弟节点，直到n2为空。</li>
+</ul>
+<p>这样便可以进行层次遍历时每一层输出在同一行，不同层输出在不同行。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="feelings-and-comments"><a href="#feelings-and-comments" class="headerlink" title="feelings and comments"></a>feelings and comments</h1><ul>
+<li>语法分析中的错误恢复机制是根据语言的使用方法来决定程序员所犯的错误中最有可能引起这个语法错误的那项，构造出一个适当的恢复过程，希望在一趟语法分析中尽可能多地发现错误，这一点也是编译语言相对于解释语言的优势，C语言的编译器在一次编译中会尽可能多的告诉程序员这段代码中的错误。LR（1）的错误恢复是得到当前状态下栈内的一个最长前缀，结合读头下的输入符号，来判断可能发生了哪个错误，这个方法的处理是局部的，因为预测分析表的每一项只能根据前面已有的状态发现错误，而不能预知未来，因此假如一段代码中一处发生了错误，通过预测分析的错误处理例程解决了这个错误，可能会影响到后续的代码，现在IDE的做法往往是一边编写的同时便进行着编译，在编译一个项目之前就能看到项目中发生的错误，往往还伴有推荐的可选解决方案，这是语法分析的错误恢复机制的一个进步。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/编译原理/" rel="tag"># 编译原理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/26/lexical-analyzer/" rel="next" title="lexical analyzer实验报告">
+                <i class="fa fa-chevron-left"></i> lexical analyzer实验报告
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sf.png" alt="John Doe">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation-Aim"><span class="nav-number">1.</span> <span class="nav-text">Motivation/Aim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-description"><span class="nav-number">2.</span> <span class="nav-text">Content description</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Methods"><span class="nav-number">3.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Assumptions"><span class="nav-number">4.</span> <span class="nav-text">Assumptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Related-FA-descriptions"><span class="nav-number">5.</span> <span class="nav-text">Related FA descriptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Important-Data-Structures"><span class="nav-number">6.</span> <span class="nav-text">Important Data Structures</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Core-Algorithms"><span class="nav-number">7.</span> <span class="nav-text">Core Algorithms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Use-cases"><span class="nav-number">8.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problems-occurred-and-related-solutions"><span class="nav-number">9.</span> <span class="nav-text">Problems occurred and related solutions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#feelings-and-comments"><span class="nav-number">10.</span> <span class="nav-text">feelings and comments</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
