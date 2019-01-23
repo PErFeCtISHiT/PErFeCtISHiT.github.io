@@ -247,6 +247,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/19/w-s-后端开发日记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/19/w-s-后端开发日记/" itemprop="url">w/s--后端开发日记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-19T14:06:41+08:00">
+                2018-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发/" itemprop="url" rel="index">
+                    <span itemprop="name">开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="序"><a href="#序" class="headerlink" title="序"></a>序</h1><p>imgannotator标注系统后端开发的过程—。</p>
+<h2 id="项目结构图"><a href="#项目结构图" class="headerlink" title="项目结构图"></a>项目结构图</h2><p>项目结构图日常修改，目前的结构图如下（服务器客户端两个项目并行，在idea的2个moudle下，注意新建一个moudle并且是maven项目时，为它新建一个pom.xml并且去继承外层的pom.xml。不然会发生找不到library的问题。</p>
+<p><img src="https://raw.githubusercontent.com/PErFeCtISHiT/imgCache/master/program.png?token=AZmkG4OobmQwZ8ub2oSNKBMdFfOPJXcgks5a4ub3wA%3D%3D" alt="images"></p>
+<h2 id="问题及解决办法"><a href="#问题及解决办法" class="headerlink" title="问题及解决办法"></a>问题及解决办法</h2><h3 id="映射静态资源文件"><a href="#映射静态资源文件" class="headerlink" title="映射静态资源文件"></a>映射静态资源文件</h3><p>​    发生的原因是项目打包、前后端项目分离后项目需要映射静态资源文件到某个resource里面，不使用项目原来的resource。在项目启动时，会自动去对应的路径下查找静态资源，例如，在访问web url时，172.0.0.1:8080/test，便会去以下文件夹查找： /static 、/public、/resources、/META-INF/resources， spring boot给我们了一个配置的简便办法，否则可以使用config类或者xml去进行配置。</p>
+<p>​    在resources文件夹下，新建一个名为application.properties的文件，并输入：</p>
+<p><code>spring.resources.static-locations=file:C:/java/SE/ImgAnnotator/annotator/</code></p>
+<p>这里我的文件路径是windows系统下的某个文件夹，如果是项目的某个地方，则将file:改成classpath:，这样，在项目启动时，会自动去对应的路径下查找静态资源，例如，在访问web url时，172.0.0.1:8080/test，便会去对应路径下查找需要的test响应。</p>
+<h3 id="项目后端架构"><a href="#项目后端架构" class="headerlink" title="项目后端架构"></a>项目后端架构</h3><p>​    迭代二硬性要求不许使用数据库，使用了json进行数据的持久化，但是为了将来程序使用数据库后减少不必要的修改，将与数据的操作都内聚在dao层，减少了service与dao之间的耦合，将来只需要修改dao包里的方法，便可以在使用数据库的情况下继续正常使用service里面的服务。eneity则是正常的数据持久化对象。util里面包含了此次项目可能会用到的工具类方法。工具类都是抽象的，并且从sonar那里学到了一招：</p>
+<p><code>private DateHelper() {    throw new IllegalStateException(&quot;Utility class&quot;);}</code></p>
+<p>在抽象类上加上抛出异常的构造函数，这样如果你粗心创建了一个抽象类，便会抛出异常，提醒你这个类不能被实例化。直接调用它的静态方法。config包基于shiro架构，配置了shiro的身份认证、权限管理。是spring boot的特色之一，使用配置来代替xml config，方便好用。controller包是与前端交互的核心，包含了所有接口，响应前端请求，调用service进行处理，最后将结果返回给view，是view与service的媒介。</p>
+<h3 id="代码测试"><a href="#代码测试" class="headerlink" title="代码测试"></a>代码测试</h3><p>​    单元测试是你一个人写有质量代码的保障，在做大型，复杂项目时，单元测试往往可以发现更多的问题，比手动测试更加高效，而且随改随测，一次性写好一个测试代码，可以受用到项目交付。集成测试则是与前端交付的保障。</p>
+<h3 id="sonar代码评价系统"><a href="#sonar代码评价系统" class="headerlink" title="sonar代码评价系统"></a>sonar代码评价系统</h3><p>​    sonar是一款看起来“很舒服”的软件，（相比于Jenkins。。。。）sonar用来评估代码质量，提高你写代码的水平，只要有一定的基础，然后每次写完代码后都用sonar去评一下，修正里面的所有警告，进步的速度是十分显著的。sonar与maven配套使用，只需在终端项目路径下输入：</p>
+<p><code>mvn sonar:sonar</code>，便可以评估你的代码。sonar还有统计功能，统计你写代码出错的“能力”，累计你的“债务”。</p>
+<h3 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h3><p>​    持续集成时必要软件吧，但是功能太复杂，还没有研究透彻。。将来再补在这里吧。。。（界面好丑）</p>
+<h3 id="json"><a href="#json" class="headerlink" title="json"></a>json</h3><p>​    json是一套存储数据的约定，用键值对的迭代嵌套了存储复杂的数据，理论上来说json也属于一种数据库，又是前后端交互的媒介。java中比较好用的json工具包是org.json，令我很不舒服的是google.json，org.json对object和array的操作可以当作一般map与array一般，大同小异，然而google.json却存在很多问题，因此建议初学使用json的时候选好工具包，不然使用了一段时间后再更换，在整个项目中修改会十分痛苦。</p>
+<h1 id="to-be-continued…"><a href="#to-be-continued…" class="headerlink" title="to be continued…."></a>to be continued….</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/10/nasm/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -643,7 +799,7 @@ int 80h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

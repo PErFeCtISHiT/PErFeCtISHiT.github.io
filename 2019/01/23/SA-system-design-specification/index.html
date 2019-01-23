@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="汇编,cpp,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,15 +79,21 @@
 
 
 
-<meta name="keywords" content="汇编,cpp">
+<meta name="description" content="Assignment3 design patternsAim项目实现了一个图书管理系统的设计和原型，目的是满足基本需求，并且在设计中遵守设计模式的原则，使系统易用、易修改。 Content descriptioncomponents description 对不同用户提供不同借书方法，并且可以调整、添加新的借书方法。使用策略模式，将借书这一行为从用户中抽离出来，可以在运行时更改行为。用户持有策略接">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windows程序设计">
-<meta property="og:url" content="http://yoursite.com/2018/10/09/windows程序设计/index.html">
+<meta property="og:title" content="SA_system_design_specification">
+<meta property="og:url" content="http://yoursite.com/2019/01/23/SA-system-design-specification/index.html">
 <meta property="og:site_name" content="somnus">
+<meta property="og:description" content="Assignment3 design patternsAim项目实现了一个图书管理系统的设计和原型，目的是满足基本需求，并且在设计中遵守设计模式的原则，使系统易用、易修改。 Content descriptioncomponents description 对不同用户提供不同借书方法，并且可以调整、添加新的借书方法。使用策略模式，将借书这一行为从用户中抽离出来，可以在运行时更改行为。用户持有策略接">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-09T11:55:55.948Z">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/images/strategy.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/images/visitor.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/23/images/criteria.png">
+<meta property="og:updated_time" content="2019-01-23T14:09:28.589Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windows程序设计">
+<meta name="twitter:title" content="SA_system_design_specification">
+<meta name="twitter:description" content="Assignment3 design patternsAim项目实现了一个图书管理系统的设计和原型，目的是满足基本需求，并且在设计中遵守设计模式的原则，使系统易用、易修改。 Content descriptioncomponents description 对不同用户提供不同借书方法，并且可以调整、添加新的借书方法。使用策略模式，将借书这一行为从用户中抽离出来，可以在运行时更改行为。用户持有策略接">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/23/images/strategy.png">
 
 
 
@@ -117,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/09/windows程序设计/">
+  <link rel="canonical" href="http://yoursite.com/2019/01/23/SA-system-design-specification/">
 
 
 
 
 
-  <title>windows程序设计 | somnus</title>
+  <title>SA_system_design_specification | somnus</title>
   
 
 
@@ -248,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/windows程序设计/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/23/SA-system-design-specification/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -265,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">windows程序设计</h1>
+          <h1 class="post-title" itemprop="name headline">SA_system_design_specification</h1>
         
 
         <div class="post-meta">
@@ -277,8 +283,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-09T19:47:45+08:00">
-                2018-10-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T20:46:34+08:00">
+                2019-01-23
               </time>
             
 
@@ -287,28 +293,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/逆向工程/" itemprop="url" rel="index">
-                    <span itemprop="name">逆向工程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -337,7 +321,46 @@
       
 
       
-        
+        <h1 id="Assignment3-design-patterns"><a href="#Assignment3-design-patterns" class="headerlink" title="Assignment3 design patterns"></a>Assignment3 design patterns</h1><h1 id="Aim"><a href="#Aim" class="headerlink" title="Aim"></a>Aim</h1><p>项目实现了一个图书管理系统的设计和原型，目的是满足基本需求，并且在设计中遵守设计模式的原则，使系统易用、易修改。</p>
+<h1 id="Content-description"><a href="#Content-description" class="headerlink" title="Content description"></a>Content description</h1><h2 id="components-description"><a href="#components-description" class="headerlink" title="components description"></a>components description</h2><ol>
+<li><p>对不同用户提供不同借书方法，并且可以调整、添加新的借书方法。使用策略模式，将借书这一行为从用户中抽离出来，可以在运行时更改行为。用户持有策略接口，运行时动态选择使用的策略。</p>
+<p>选择原因：</p>
+<ul>
+<li>借书方法可以自由切换，以应对新借书方法的产生</li>
+<li>易于扩展，可以在不改变原有代码的基础上新增借书方法，符合开闭原则</li>
+<li>代替了条件语句，用户只需要知道自己需要选择的策略，而通过条件判断是不容易维护的。</li>
+</ul>
+<p>类图：</p>
+<p><img src="..\images\strategy.png" alt="strategy"></p>
+</li>
+<li><p>图书管理员编辑图书、用户信息、产生借书、逾期报告。使用访问者模式，根据管理员查看的用户类型来改变查看的方法，不同的用户产生不同的借书、逾期报告。用户接受访问者对象，访问者对象处理对用户的操作。</p>
+<p>选择原因：</p>
+<ul>
+<li>增加查看新用户类型的信息方便，只需增加一个具体用户类，符合开闭原则。</li>
+<li>将有关元素对象的访问行为集中到一个访问者对象中，而不是分散在一个个的元素类中。类的职责更加清晰，有利于对象结构中元素对象的复用，相同的对象结构可以供多个不同的访问者访问。</li>
+<li>在不修改现有用户类层次结构的情况下，定义作用于该层次结构的操作。</li>
+</ul>
+<p>类图：</p>
+<p><img src="..\images\visitor.png" alt="visitor"></p>
+<p>管理员向其他部门、学校授予查看、增加用户信息的权限，使用条件模式来对其他部门查看用户进行条件过滤，图书管理系统中记录的用户中只有一部分是其他部门需要查看的，不同部门需要查看的用户群体不同，使用不同的条件过滤一组对象，并通过逻辑操作以解耦方式将其链接。向部门授权使用用户、角色、权限来实现，每个部门有一个权限集合，管理员对权限信息进行操作，来进行权限的授予和取消。</p>
+<p>选择原因：</p>
+<ul>
+<li>符合开闭原则，在有新的部门需要查看一组特别的用户信息时，只需要新扩展一个criteria即可。</li>
+<li>解除了部门和用户信息之间的耦合，让criteria专门进行用户筛选</li>
+</ul>
+<p>类图：</p>
+<p><img src="..\images\criteria.png" alt="criteria"></p>
+</li>
+</ol>
+<h1 id="feelings-and-comments"><a href="#feelings-and-comments" class="headerlink" title="feelings and comments"></a>feelings and comments</h1><p>分工 </p>
+<p>​    刘倚彤：component1、component2设计、类图、原型</p>
+<p>​    蔡蔚霖：component3、component4设计、类图、原型</p>
+<ul>
+<li><p>刘倚彤</p>
+<p>对于同一功能，我们可以选择不同的设计模式来实现，甚至不使用设计模式，但是好的设计模式的应用可以提高系统的质量属性。在选择设计模式时不应该只考虑设计模式的优点，应该发现这样的设计模式会对系统带来可能的一些负担和问题，因为这些问题在暴露出来的时候可能因为已经选用了设计模式所以难以割舍，而且往往弊大于利。</p>
+</li>
+</ul>
+
       
     </div>
     
@@ -352,14 +375,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/汇编/" rel="tag"># 汇编</a>
-          
-            <a href="/tags/cpp/" rel="tag"># cpp</a>
-          
-        </div>
-      
 
       
       
@@ -369,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/09/啄食成器/" rel="next" title="啄食成器">
-                <i class="fa fa-chevron-left"></i> 啄食成器
+              <a href="/2019/01/20/pig/" rel="next" title="pig">
+                <i class="fa fa-chevron-left"></i> pig
               </a>
             
           </div>
@@ -378,10 +393,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/09/IDA-pro 第一次反汇编/" rel="prev" title="IDA-pro">
-                IDA-pro <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -433,8 +444,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -496,6 +516,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Assignment3-design-patterns"><span class="nav-number">1.</span> <span class="nav-text">Assignment3 design patterns</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Aim"><span class="nav-number">2.</span> <span class="nav-text">Aim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-description"><span class="nav-number">3.</span> <span class="nav-text">Content description</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#components-description"><span class="nav-number">3.1.</span> <span class="nav-text">components description</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#feelings-and-comments"><span class="nav-number">4.</span> <span class="nav-text">feelings and comments</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
