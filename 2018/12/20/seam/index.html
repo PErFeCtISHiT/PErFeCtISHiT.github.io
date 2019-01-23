@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="seam构建仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seam">
+<meta property="og:url" content="http://yoursite.com/2018/12/20/seam/index.html">
+<meta property="og:site_name" content="somnus">
+<meta property="og:description" content="seam构建仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在h">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="c:/Users/84979/AppData/Roaming/Typora/typora-user-images/1545320362141.png">
+<meta property="og:image" content="c:/Users/84979/AppData/Roaming/Typora/typora-user-images/1547358654474.png">
+<meta property="og:updated_time" content="2019-01-13T05:51:01.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="seam">
+<meta name="twitter:description" content="seam构建仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在h">
+<meta name="twitter:image" content="c:/Users/84979/AppData/Roaming/Typora/typora-user-images/1545320362141.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"Sidebar Position, available value":"left | right (only for Pisces | Gemini).","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/20/seam/">
+
+
+
+
+
+  <title>seam | somnus</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">somnus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/seam/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">seam</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-20T23:14:26+08:00">
+                2018-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="seam构建"><a href="#seam构建" class="headerlink" title="seam构建"></a>seam构建</h2><h3 id="仓库问题"><a href="#仓库问题" class="headerlink" title="仓库问题"></a>仓库问题</h3><p>seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在<a href="https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。" target="_blank" rel="noopener">https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。</a></p>
+<p>当我们执行 Maven 构建命令，Maven 依赖库按以下顺序进行搜索：</p>
+<ul>
+<li>第1步 - 搜索依赖本地资源库，如果没有找到，跳到第2步，否则，如果找到那么会做进一步处理。</li>
+<li>第2步 - 搜索依赖中央存储库，如果没有找到，则从远程资源库/存储库中，然后移动到步骤4，否则如果找到，那么它下载到本地存储库中，以备将来参考使用。</li>
+<li>第3步 - 如果没有提到远程仓库，Maven 则会停止处理并抛出错误（找不到依赖库）。</li>
+<li>第4步 - 远程仓库或储存库中的搜索依赖，如果找到它会下载到本地资源库以供将来参考使用，否则 Maven 停止处理并抛出错误（找不到依赖库）。</li>
+</ul>
+<p>回到seam官方文档，发现已经提出需要设置settings.xml来设置用于构建seam的maven远程仓库，并且提供了settings.xml，问题解决</p>
+<h3 id="javadoc构建检查"><a href="#javadoc构建检查" class="headerlink" title="javadoc构建检查"></a>javadoc构建检查</h3><p>seam2.3是java 5的项目，对javadoc要求不严格，项目中也有不按doc编程的例子，用java 8进行构建时会报出以下错误，需要跳过严格检查过程。</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545320362141.png" alt="1545320362141"></p>
+<h2 id="JBoss-as"><a href="#JBoss-as" class="headerlink" title="JBoss-as"></a>JBoss-as</h2><p>运行jboss instance报错。替换modules.jar</p>
+<p><a href="https://stackoverflow.com/questions/48403832/javax-xml-parsers-factoryconfigurationerror-running-jboss-as-7-1-with-java-7-upd" target="_blank" rel="noopener">https://stackoverflow.com/questions/48403832/javax-xml-parsers-factoryconfigurationerror-running-jboss-as-7-1-with-java-7-upd</a></p>
+<p>jboss支持jdk1.7及以下版本，要修改standlone.bat来指定版本，同样，运行测试也需要修改java_home</p>
+<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>指令：</p>
+<blockquote>
+<p>mvn clean test -Darquillian=jbossas-managed-7</p>
+</blockquote>
+<p>Please include at least 1 Deployable Container on your Classpath</p>
+<p><a href="https://stackoverflow.com/questions/42784861/how-to-add-a-deployable-container-to-my-class-path" target="_blank" rel="noopener">https://stackoverflow.com/questions/42784861/how-to-add-a-deployable-container-to-my-class-path</a></p>
+<p><a href="https://stackoverflow.com/questions/39246595/cdi-api-version-mismatch-error-when-trying-to-run-arquillian-getting-started-exa" target="_blank" rel="noopener">https://stackoverflow.com/questions/39246595/cdi-api-version-mismatch-error-when-trying-to-run-arquillian-getting-started-exa</a></p>
+<p>deploy</p>
+<p><a href="https://stackoverflow.com/questions/38507794/duplicateserviceexception-jboss-server" target="_blank" rel="noopener">https://stackoverflow.com/questions/38507794/duplicateserviceexception-jboss-server</a></p>
+<p><a href="https://access.redhat.com/documentation/ja-jp/jboss_enterprise_application_platform/6/html/migration_guide/debug_and_resolve_seam_22_booking_archive_deployment_errors_and_exceptions" target="_blank" rel="noopener">https://access.redhat.com/documentation/ja-jp/jboss_enterprise_application_platform/6/html/migration_guide/debug_and_resolve_seam_22_booking_archive_deployment_errors_and_exceptions</a></p>
+<p>arquillian</p>
+<p><a href="https://github.com/arquillian/arquillian-cube/issues/661" target="_blank" rel="noopener">https://github.com/arquillian/arquillian-cube/issues/661</a></p>
+<h1 id="surefire"><a href="#surefire" class="headerlink" title="surefire"></a>surefire</h1><p>Maven运行测试用例时，是通过调用maven的surefire插件并fork一个子进程来执行用例的，所以这里可以在surefire插件的配置中直接添加jvm参数</p>
+<p><a href="https://blog.csdn.net/wang67712640/article/details/78092804" target="_blank" rel="noopener">https://blog.csdn.net/wang67712640/article/details/78092804</a></p>
+<p>为seam项目中的每个module的pom.xml创建一个build标签，并在其中添加surefire配置。</p>
+<h1 id="groovy-test-task"><a href="#groovy-test-task" class="headerlink" title="groovy test task"></a>groovy test task</h1><p>gradle同样也有类似maven的fork策略，如</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compileTestGroovy &#123;</span><br><span class="line">    groovyOptions.fork(<span class="string">memoryMaximumSize:</span> groovycTest_mx)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在测试时要在test任务中添加jvm参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test&#123;</span><br><span class="line">	jvmArgs &apos;-agentpath:C:\\Users\\84979\\Desktop\\code_analysis\\data_dependency_capturer\\x64\\Release\\data_dependency_capturer.dll&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="class-signature问题"><a href="#class-signature问题" class="headerlink" title="class_signature问题"></a>class_signature问题</h2><p>gradle的编译策略是有一个sourceSet指定所有的test文件位置，将其编译为class文件，所以产生的class_signature没有共同前缀，如图：</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1547358654474.png" alt="1547358654474"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/08/LR(1)parser/" rel="next" title="LR(1) parser">
+                <i class="fa fa-chevron-left"></i> LR(1) parser
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/23/quality-attribute/" rel="prev" title="quality_attribute">
+                quality_attribute <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sf.png" alt="John Doe">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#seam构建"><span class="nav-number">1.</span> <span class="nav-text">seam构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#仓库问题"><span class="nav-number">1.1.</span> <span class="nav-text">仓库问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#javadoc构建检查"><span class="nav-number">1.2.</span> <span class="nav-text">javadoc构建检查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JBoss-as"><span class="nav-number">2.</span> <span class="nav-text">JBoss-as</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test"><span class="nav-number">3.</span> <span class="nav-text">test</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#surefire"><span class="nav-number"></span> <span class="nav-text">surefire</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#groovy-test-task"><span class="nav-number"></span> <span class="nav-text">groovy test task</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#class-signature问题"><span class="nav-number">1.</span> <span class="nav-text">class_signature问题</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

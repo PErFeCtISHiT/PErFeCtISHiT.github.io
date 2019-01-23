@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,编译原理,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,22 +79,21 @@
 
 
 
-<meta name="description" content="Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、parsing tab">
-<meta name="keywords" content="java,编译原理">
+<meta name="description" content="lab2实验报告Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、pars">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LR(1) parser">
 <meta property="og:url" content="http://yoursite.com/2018/11/08/LR(1)parser/index.html">
 <meta property="og:site_name" content="somnus">
-<meta property="og:description" content="Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、parsing tab">
+<meta property="og:description" content="lab2实验报告Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、pars">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/11/08/images/2.png">
 <meta property="og:image" content="http://yoursite.com/2018/11/08/images/4.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/11/08/images/5.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/11/08/images/6.jpg">
-<meta property="og:updated_time" content="2018-11-10T11:22:38.747Z">
+<meta property="og:updated_time" content="2018-11-10T11:25:45.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LR(1) parser">
-<meta name="twitter:description" content="Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、parsing tab">
+<meta name="twitter:description" content="lab2实验报告Motivation/Aim 使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。 实现慌恐模式的错误恢复。  Content description 文法使用如图的文法，该文件具有二义性    DFA、pars">
 <meta name="twitter:image" content="http://yoursite.com/2018/11/08/images/2.png">
 
 
@@ -296,28 +295,6 @@
           </span>
 
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -345,8 +322,7 @@
       
 
       
-        <ul>
-<li><h1 id="Motivation-Aim"><a href="#Motivation-Aim" class="headerlink" title="Motivation/Aim"></a>Motivation/Aim</h1><ul>
+        <h1 id="lab2实验报告"><a href="#lab2实验报告" class="headerlink" title="lab2实验报告"></a>lab2实验报告</h1><h1 id="Motivation-Aim"><a href="#Motivation-Aim" class="headerlink" title="Motivation/Aim"></a>Motivation/Aim</h1><ul>
 <li>使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。</li>
 <li>实现慌恐模式的错误恢复。</li>
 </ul>
@@ -373,8 +349,6 @@
 <li>LR(1) DFA</li>
 </ul>
 <p><img src="../images/4.jpg" alt=""></p>
-</li>
-</ul>
 <ul>
 <li><p>LR(1) parsing table</p>
 <p>| 状态 | ACTION |      |      |      |      | GOTO |<br>| —- | —— | —- | —- | —- | —- | —- |<br>|      | i      | ；   | e    | a    | $R   | S    |<br>| 0    | s2     | e2   | e2   | s3   | e4   | 1    |<br>| 1    | e3.1   | s4   | e2   | e3.1 | ACC  |      |<br>| 2    | s6     | e2   | e1.1 | s11  | e4   | 5    |<br>| 3    | e2     | r4   | e2   | e2   | r4   |      |<br>| 4    | s2     | e2   | e2   | s3   | e4   | 7    |<br>| 5    | e2     | r2   | s8   | e2   | r2   |      |<br>| 6    | s6     | e2   | e1.2 | s11  | e4   | 10   |<br>| 7    | e3.1   | r3   | e2   | e3.1 | r3   |      |<br>| 8    | s2     | e2   | e2   | s3   | e4   | 12   |<br>| 9    | s6     | e2   | e2   | s11  | e4   | 13   |<br>| 10   | e3.2   | r2   | s14  | e3.2 | r2   |      |<br>| 11   | e2     | r4   | r4   | e2   | r4   |      |<br>| 12   | e3.1   | r1   | e2   | e3.1 | r1   |      |<br>| 13   | e3.2   | r3   | r3   | e3.2 | r3   |      |<br>| 14   | s6     | e2   | e2   | s11  | e4   | 15   |<br>| 15   | e3.2   | r1   | r1   | e3.2 | r1   |      |</p>
@@ -538,14 +512,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/java/" rel="tag"># java</a>
-          
-            <a href="/tags/编译原理/" rel="tag"># 编译原理</a>
-          
-        </div>
-      
 
       
       
@@ -564,6 +530,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/20/seam/" rel="prev" title="seam">
+                seam <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -642,7 +612,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -697,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation-Aim"><span class="nav-number">1.</span> <span class="nav-text">Motivation/Aim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-description"><span class="nav-number">2.</span> <span class="nav-text">Content description</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Methods"><span class="nav-number">3.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Assumptions"><span class="nav-number">4.</span> <span class="nav-text">Assumptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Related-FA-descriptions"><span class="nav-number">5.</span> <span class="nav-text">Related FA descriptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Important-Data-Structures"><span class="nav-number">6.</span> <span class="nav-text">Important Data Structures</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Core-Algorithms"><span class="nav-number">7.</span> <span class="nav-text">Core Algorithms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Use-cases"><span class="nav-number">8.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problems-occurred-and-related-solutions"><span class="nav-number">9.</span> <span class="nav-text">Problems occurred and related solutions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#feelings-and-comments"><span class="nav-number">10.</span> <span class="nav-text">feelings and comments</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lab2实验报告"><span class="nav-number">1.</span> <span class="nav-text">lab2实验报告</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation-Aim"><span class="nav-number">2.</span> <span class="nav-text">Motivation/Aim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-description"><span class="nav-number">3.</span> <span class="nav-text">Content description</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Methods"><span class="nav-number">4.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Assumptions"><span class="nav-number">5.</span> <span class="nav-text">Assumptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Related-FA-descriptions"><span class="nav-number">6.</span> <span class="nav-text">Related FA descriptions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Important-Data-Structures"><span class="nav-number">7.</span> <span class="nav-text">Important Data Structures</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Core-Algorithms"><span class="nav-number">8.</span> <span class="nav-text">Core Algorithms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Use-cases"><span class="nav-number">9.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problems-occurred-and-related-solutions"><span class="nav-number">10.</span> <span class="nav-text">Problems occurred and related solutions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#feelings-and-comments"><span class="nav-number">11.</span> <span class="nav-text">feelings and comments</span></a></li></ol></div>
             
 
           </div>
@@ -717,7 +687,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

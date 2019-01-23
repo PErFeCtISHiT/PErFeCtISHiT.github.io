@@ -247,6 +247,847 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/pig/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/20/pig/" itemprop="url">pig</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-20T22:17:40+08:00">
+                2019-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="windows构建pig"><a href="#windows构建pig" class="headerlink" title="windows构建pig"></a>windows构建pig</h1><p>clone或下载源码：<a href="https://github.com/apache/pig/tree/branch-0.17，下载ant并配置环境变量，下载Hadoop并配置环境变量，在pig的顶级目录执行ant，参考https://wiki.apache.org/pig/BuildPig" target="_blank" rel="noopener">https://github.com/apache/pig/tree/branch-0.17，下载ant并配置环境变量，下载Hadoop并配置环境变量，在pig的顶级目录执行ant，参考https://wiki.apache.org/pig/BuildPig</a></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>ant编译卡在ivy-resolve不动，找到两个解释：</p>
+<ul>
+<li><p>maven仓库文件损坏，应修改maven远程仓库（settings.xml）。</p>
+</li>
+<li><p>ivy工具使用的库在国外，这里我在编译的时候开了vps，但是还是卡住不动，但是使用境外服务器是可以编译的，可能ivy工具构建时绕过了vps代理。</p>
+<p>参考：<a href="https://ask.csdn.net/questions/163160" target="_blank" rel="noopener">https://ask.csdn.net/questions/163160</a></p>
+</li>
+</ul>
+<h1 id="ubuntu构建pig"><a href="#ubuntu构建pig" class="headerlink" title="ubuntu构建pig"></a>ubuntu构建pig</h1><ol>
+<li><p>下载ant：</p>
+<p>wget <a href="http://mirror.olnevhost.net/pub/apache//ant/binaries/apache-ant-1.10.5-bin.tar.gz" target="_blank" rel="noopener">http://mirror.olnevhost.net/pub/apache//ant/binaries/apache-ant-1.10.5-bin.tar.gz</a></p>
+<p>tar -xvzf apache-ant-bin.tar.gz</p>
+</li>
+<li><p>下载pig源码：</p>
+<p>git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:apache/pig.git  </p>
+</li>
+<li><p>用git剪出一个新分支，并且pull远程0.17分支的版本</p>
+<p>参考<a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html</a></p>
+</li>
+<li><p>编写一个build.sh脚本：</p>
+<p>vim build.sh</p>
+<p>#指定maven repo源<br>IVY_MIRROR_PROP=${IVY_MIRROR_PROP:-<a href="http://cloud.sogou-inc.com/nexus/content/groups/public/}" target="_blank" rel="noopener">http://cloud.sogou-inc.com/nexus/content/groups/public/}</a></p>
+<p>#指定ant home<br>export ANT_HOME=/search/apache-ant-1.10.5<br>export PATH=${ANT_HOME}/bin:$PATH</p>
+</li>
+<li><p>#修改build.xml,编译jar包<br>ant -Dmvnrepo=$IVY_MIRROR_PROP  -Dhbaseversion=94 -Dhadoopversion=23 -Djvm.arg=… piggybank tar</p>
+<p>其中-Djvm-arg即agent位置，修改build.xml参考<a href="https://monsoongale.iteye.com/blog/1028920" target="_blank" rel="noopener">https://monsoongale.iteye.com/blog/1028920</a></p>
+</li>
+<li><p>执行脚本</p>
+<p>sh build.sh</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/architecture-patterns/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/07/architecture-patterns/" itemprop="url">architecture-patterns</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-07T16:16:05+08:00">
+                2019-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/quality-attribute/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/23/quality-attribute/" itemprop="url">quality_attribute</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-23T10:34:55+08:00">
+                2018-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1>Assignment1</h1>
+
+<h2 algin="center">南京大学软件学院2016级本科</h2>
+
+<p align="right">161250081刘倚彤</p>
+
+<p>[TOC]</p>
+<h1 id="extensibility-vs-scalability"><a href="#extensibility-vs-scalability" class="headerlink" title="extensibility vs scalability"></a>extensibility vs scalability</h1><h2 id="1-scenarios"><a href="#1-scenarios" class="headerlink" title="1. scenarios"></a>1. scenarios</h2><h3 id="extensibility"><a href="#extensibility" class="headerlink" title="extensibility"></a>extensibility</h3><ul>
+<li>general scenario</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>element</th>
+<th>values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source</td>
+<td>同类产品、市场、软件订购方、交互设备</td>
+</tr>
+<tr>
+<td>stimulus</td>
+<td>同类产品有新功能；订购方、市场产生新需求；交互设备更新换代</td>
+</tr>
+<tr>
+<td>artifact</td>
+<td>添加新功能的系统；与更新的设备交互的接口</td>
+</tr>
+<tr>
+<td>environment</td>
+<td>产品已上线；产品目前功能不满足新的需要</td>
+</tr>
+<tr>
+<td>response</td>
+<td>添加新功能至满足需求；添加新接口与更新的设备交互</td>
+</tr>
+<tr>
+<td>response measure</td>
+<td>添加的新特性数量/需求变更数量；平均添加新功能所用时间；</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>sample scenario</p>
+<p><img src="../images/10.png" alt="1545634619091"></p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545635275133.png" alt="1545635275133"></p>
+</li>
+</ul>
+<h3 id="scalability"><a href="#scalability" class="headerlink" title="scalability"></a>scalability</h3><ul>
+<li><p>general scenario</p>
+<p>| element          | values                                                       |<br>| —————- | ———————————————————— |<br>| source           | 用户、市场、政策                                             |<br>| stimulus         | 用户数量增加；市场需求量增大；政策变更导致需要额外保存数据   |<br>| artifact         | 数据库；计算服务器                                           |<br>| environment      | 正常运行；死锁；过载运行                                     |<br>| response         | 记录错误；添加数据库或修改数据库设计来应对数据库容量不足；扩展数据库存储其他数据 |<br>| response measure | 可能并发的用户数、连接数；最大存储数据量；                   |</p>
+</li>
+<li><p>sample scenario</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545639354504.png" alt="1545639354504"></p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545640005397.png" alt="1545640005397"></p>
+</li>
+</ul>
+<h2 id="2-relationships-and-differences"><a href="#2-relationships-and-differences" class="headerlink" title="2. relationships and differences"></a>2. relationships and differences</h2><p>extensibility（可扩展性）和scalability（可伸缩性）的共同点在于软件当前运行没有问题的假设下，考虑到了未来的变化会对现有系统带来的影响，并将这些考虑应用到实际的软件结构设计中，构造可扩展或可伸缩的系统。可扩展性的关注点是应对功能增加，同时最大限度地减少对现有系统功能的影响，在新功能添加时，可扩展的系统d的内部结构和数据流受到的影响要尽可能地小。比如随着环境的变化产生的新的功能需求，或者这个软件依赖的其他软件的接口、其他设备、输入数据发生了改变，在可扩展性设计原则下要让软件能够轻松应对这些变化，不进行过多的重构。可伸缩性是系统，网络或流程处理越来越多的工作的能力，或者是为了适应这种增长而扩大其潜力的能力。可伸缩性的关注点则是当软件的工作量急剧增加时，系统能否不进行重新设计，保持有效性能，比如某个管理系统，在用户不断增长的情况下，仍然可以保证一定的效率并且支持新增的用户，而且不需要重新编译和修改原始源代码。又如可扩展的在线事务处理系统或数据库管理系统是可以升级以通过添加新的处理器、设备和内存来处理更多事务的系统，并且可以在不关闭它的情况下容易、透明地升级。总体来说，可扩展性好的系统可以十分方便地增加新功能，可伸缩性则是系统能够调节大小来适应原有的某个功能的规模的变化。这就是二者的主要区别。</p>
+<h2 id="3-strategies-and-tactics"><a href="#3-strategies-and-tactics" class="headerlink" title="3. strategies and tactics"></a>3. strategies and tactics</h2><ul>
+<li>extensibility<ul>
+<li>S1:将系统分解为comprehensible units，提高内聚降低耦合<ul>
+<li>T1:组件化开发模式，用具有完备功能的组件实现功能。</li>
+<li>T2:用声明式构建语言构建系统，提供默认的构建生命周期，也可以自己定义任务，单独运行任务，定义任务间的依赖 （gradle）</li>
+</ul>
+</li>
+<li>S2:定义良好的接口<ul>
+<li>T3:依赖倒置、OCP原则，支持通过添加进行变更</li>
+<li>T4:以小步骤实现功能，减少各模块之间的依赖</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability<ul>
+<li>S3:垂直伸缩<ul>
+<li>T5:使用性能更高的服务器</li>
+<li>T6:使用优化更好的数据库</li>
+<li>T7:使用性价比更高的调度算法来实现负载均衡</li>
+</ul>
+</li>
+<li>S4:水平伸缩<ul>
+<li>T8:使用分布式服务器</li>
+<li>T9:使用缓存</li>
+<li>T10:使用可伸缩数据库</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>extensibility</th>
+<th>scalability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>提高可扩展性</td>
+<td>不同组件的伸缩性差异难以统一配置</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>提高可扩展性</td>
+<td>不影响可伸缩性</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>提高可扩展性</td>
+<td>不影响可伸缩性</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>提高可扩展性</td>
+<td>每一步的设计都需要考虑可伸缩性</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>不影响可扩展性</td>
+<td>提高可伸缩性</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>不影响可扩展性</td>
+<td>提高可伸缩性</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>扩展新功能可能会影响调度算法</td>
+<td>提高可伸缩性</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>不影响可扩展性</td>
+<td>提高可伸缩性</td>
+</tr>
+<tr>
+<td>T9</td>
+<td>需要扩展的功能与缓存可能发生冲突</td>
+<td>提高可伸缩性</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>扩展新功能可能会重构数据库</td>
+<td>提高可伸缩性</td>
+</tr>
+</tbody>
+</table>
+<h1 id="stability-vs-reliability"><a href="#stability-vs-reliability" class="headerlink" title="stability vs reliability"></a>stability vs reliability</h1><h2 id="1-scenarios-1"><a href="#1-scenarios-1" class="headerlink" title="1.scenarios"></a>1.scenarios</h2><h3 id="stability"><a href="#stability" class="headerlink" title="stability"></a>stability</h3><ul>
+<li><p>general scenario</p>
+<p>| element          | values                                     |<br>| —————- | —————————————— |<br>| source           | 程序、硬件、用户                           |<br>| stimulus         | 程序性错误、异常；硬件出错；用户误操作     |<br>| artifact         | 软硬件接口、软件系统                       |<br>| environment      | 正常运行、过载、死锁                       |<br>| response         | 修复问题，记录日志，继续运行               |<br>| response measure | 正常运行时间/总时间；误操作次数/总操作次数 |</p>
+</li>
+<li><p>sample scenario</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545706794793.png" alt="1545706794793"></p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545731575418.png" alt="1545731575418"></p>
+</li>
+</ul>
+<h3 id="reliability"><a href="#reliability" class="headerlink" title="reliability"></a>reliability</h3><ul>
+<li><p>general scenario</p>
+<p>| element          | values                                                    |<br>| —————- | ——————————————————— |<br>| source           | 程序、硬件                                                |<br>| stimulus         | 程序性错误、异常；硬件出错；                              |<br>| artifact         | 计算部件                                                  |<br>| environment      | 正常运行、过载、死锁                                      |<br>| response         | 纠正错误；暂停程序报告错误                                |<br>| response measure | 在给定时间t内产生正确输出的频率；隔离故障停止程序所需时间 |</p>
+</li>
+<li><p>sample scenario</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545732558166.png" alt="1545732558166"></p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545732876068.png" alt="1545732876068"></p>
+</li>
+</ul>
+<h2 id="2-relationships-and-differences-1"><a href="#2-relationships-and-differences-1" class="headerlink" title="2. relationships and differences"></a>2. relationships and differences</h2><p>stability（稳定性）与reliability（可靠性）的共同点在于二者的衡量标准都是系统变化，而且往往是系统产生了故障、错误等预料之外的变化，系统通过采用不同的手段了应对错误，其稳定性与可靠性也不同。稳定性表征系统对系统发生变化时的敏感性，系统产生了错误数据、硬件出错等问题，系统是否将这些问题暴露出来给用户，稳定性强的系统会展示更少的崩溃次数，系统内部消化错误，然而这种处理手段往往会使系统变得不可靠，比如系统发现了有可能会产生冲突的数据包，决策不向用户报告错误而自行选择可能的解决方案，稳定性的增强带来了可靠性的降低；稳定性也会影响可伸缩性，稳定性强的系统用户便不会因为接收到了错误而重复操作，用户执行更少的任务，意味着系统可以支持更多的用户。可靠性与可用性、可维护性共称为RAS，使用更高级别的RAS设计的计算机具有许多保护数据完整性的功能，并帮助它们长时间保持可用而不会出现故障，可靠性的定义为系统在某个给定时间<em>t内</em>产生正确输出的概率。可靠性强的系统只执行绝对正确的指令，在遇到错误时，往往会暂时停止程序或者程序的一部分，直到错误修复，基于互联网的系统便基于可靠性工作，在出现网络连接中断时停止功能的使用，立即备份数据，在网络恢复后，我们可以依靠它不丢失数据，这样的设计似乎违反了稳定性，但是它十分可靠。再比如一个运算器，接收到了除0的运算，可靠性的设计认为这样的结果是错误的，应该抛出异常，中断运算，而稳定性的设计则会为了尽量展示更少的崩溃次数，返回一个用inf表示的特殊结果。综上所述，稳定性与可靠性的差异便在于系统应对错误的处理方式。提高一方的同时势必会影响到另一方。</p>
+<h2 id="3-strategies-and-tactics-1"><a href="#3-strategies-and-tactics-1" class="headerlink" title="3. strategies and tactics"></a>3. strategies and tactics</h2><ul>
+<li>stability<ul>
+<li>S1:提高系统性能<ul>
+<li>T1:使用更加可靠的硬件设备，减少硬件出错的频率</li>
+<li>T2:减少任务执行时间，提供更多的可用资源，防止多用户同时执行产生的死锁和资源争用</li>
+</ul>
+</li>
+<li>S2:提高系统的可伸缩性<ul>
+<li>T3:减少因为系统过载所产生的错误，拒绝请求等不稳定行为。</li>
+<li>T4:增加系统并行能力，减少排队请求带来的性能降低，增强稳定性。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>reliability<ul>
+<li>S1:硬件功能<ul>
+<li>T5:处理器指令错误检测和指令重试，减少出现指令级故障的可能性。</li>
+<li>T6:内存组件和内存总线的奇偶校验，禁用坏块，记忆擦洗，记忆保留，糟糕的页面离线，冗余位转向，冗余独立存储器阵列，用于防止内存故障带来的程序性错误。</li>
+<li>T7:用于数据传输/重试和数据存储的循环冗余校验，用于防止I/O传输时的数据错误。</li>
+<li>T8:磁盘存储的RAID配置，崩溃后的日志记录系统，数据校验和后台清理，用于检查数据错误，记录日志。</li>
+<li>T9:复制组件防止单点故障（电源），时钟频率、温度、电压的指定工作范围监控例程，用于在可能发生故障时中断程序。</li>
+</ul>
+</li>
+<li>S2：软件功能<ul>
+<li>T10:丢弃网络传输中冲突的数据包，报告错误并重新请求数据</li>
+<li>T11:组件化设计模式，将一个大型系统分解，更容易定位故障并修复</li>
+<li>T12:可维护性的独立服务处理器，远程监控、警报和控制故障</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th>stability</th>
+<th>reliability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">T1</td>
+<td>提高稳定性</td>
+<td>减少故障发生概率，提高了可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T2</td>
+<td>提高稳定性</td>
+<td>不影响可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T3</td>
+<td>提高稳定性</td>
+<td>减少了错误的发生，提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T4</td>
+<td>提高稳定性</td>
+<td>并行可能带来的并发错误，降低了可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T5</td>
+<td>指令错误与重试会增加崩溃次数，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T6</td>
+<td>数据校验出错，系统崩溃，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T7</td>
+<td>数据校验出错，系统崩溃，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T8</td>
+<td>磁盘出错，系统崩溃，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T9</td>
+<td>硬件故障带来系统崩溃，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T10</td>
+<td>数据错误停止当前操作重传数据，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T11</td>
+<td>不影响稳定性</td>
+<td>提高可靠性</td>
+</tr>
+<tr>
+<td style="text-align:left">T12</td>
+<td>独立处理器带来的停止系统，降低了稳定性</td>
+<td>提高可靠性</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/seam/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/20/seam/" itemprop="url">seam</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-20T23:14:26+08:00">
+                2018-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="seam构建"><a href="#seam构建" class="headerlink" title="seam构建"></a>seam构建</h2><h3 id="仓库问题"><a href="#仓库问题" class="headerlink" title="仓库问题"></a>仓库问题</h3><p>seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在<a href="https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。" target="_blank" rel="noopener">https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。</a></p>
+<p>当我们执行 Maven 构建命令，Maven 依赖库按以下顺序进行搜索：</p>
+<ul>
+<li>第1步 - 搜索依赖本地资源库，如果没有找到，跳到第2步，否则，如果找到那么会做进一步处理。</li>
+<li>第2步 - 搜索依赖中央存储库，如果没有找到，则从远程资源库/存储库中，然后移动到步骤4，否则如果找到，那么它下载到本地存储库中，以备将来参考使用。</li>
+<li>第3步 - 如果没有提到远程仓库，Maven 则会停止处理并抛出错误（找不到依赖库）。</li>
+<li>第4步 - 远程仓库或储存库中的搜索依赖，如果找到它会下载到本地资源库以供将来参考使用，否则 Maven 停止处理并抛出错误（找不到依赖库）。</li>
+</ul>
+<p>回到seam官方文档，发现已经提出需要设置settings.xml来设置用于构建seam的maven远程仓库，并且提供了settings.xml，问题解决</p>
+<h3 id="javadoc构建检查"><a href="#javadoc构建检查" class="headerlink" title="javadoc构建检查"></a>javadoc构建检查</h3><p>seam2.3是java 5的项目，对javadoc要求不严格，项目中也有不按doc编程的例子，用java 8进行构建时会报出以下错误，需要跳过严格检查过程。</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1545320362141.png" alt="1545320362141"></p>
+<h2 id="JBoss-as"><a href="#JBoss-as" class="headerlink" title="JBoss-as"></a>JBoss-as</h2><p>运行jboss instance报错。替换modules.jar</p>
+<p><a href="https://stackoverflow.com/questions/48403832/javax-xml-parsers-factoryconfigurationerror-running-jboss-as-7-1-with-java-7-upd" target="_blank" rel="noopener">https://stackoverflow.com/questions/48403832/javax-xml-parsers-factoryconfigurationerror-running-jboss-as-7-1-with-java-7-upd</a></p>
+<p>jboss支持jdk1.7及以下版本，要修改standlone.bat来指定版本，同样，运行测试也需要修改java_home</p>
+<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>指令：</p>
+<blockquote>
+<p>mvn clean test -Darquillian=jbossas-managed-7</p>
+</blockquote>
+<p>Please include at least 1 Deployable Container on your Classpath</p>
+<p><a href="https://stackoverflow.com/questions/42784861/how-to-add-a-deployable-container-to-my-class-path" target="_blank" rel="noopener">https://stackoverflow.com/questions/42784861/how-to-add-a-deployable-container-to-my-class-path</a></p>
+<p><a href="https://stackoverflow.com/questions/39246595/cdi-api-version-mismatch-error-when-trying-to-run-arquillian-getting-started-exa" target="_blank" rel="noopener">https://stackoverflow.com/questions/39246595/cdi-api-version-mismatch-error-when-trying-to-run-arquillian-getting-started-exa</a></p>
+<p>deploy</p>
+<p><a href="https://stackoverflow.com/questions/38507794/duplicateserviceexception-jboss-server" target="_blank" rel="noopener">https://stackoverflow.com/questions/38507794/duplicateserviceexception-jboss-server</a></p>
+<p><a href="https://access.redhat.com/documentation/ja-jp/jboss_enterprise_application_platform/6/html/migration_guide/debug_and_resolve_seam_22_booking_archive_deployment_errors_and_exceptions" target="_blank" rel="noopener">https://access.redhat.com/documentation/ja-jp/jboss_enterprise_application_platform/6/html/migration_guide/debug_and_resolve_seam_22_booking_archive_deployment_errors_and_exceptions</a></p>
+<p>arquillian</p>
+<p><a href="https://github.com/arquillian/arquillian-cube/issues/661" target="_blank" rel="noopener">https://github.com/arquillian/arquillian-cube/issues/661</a></p>
+<h1 id="surefire"><a href="#surefire" class="headerlink" title="surefire"></a>surefire</h1><p>Maven运行测试用例时，是通过调用maven的surefire插件并fork一个子进程来执行用例的，所以这里可以在surefire插件的配置中直接添加jvm参数</p>
+<p><a href="https://blog.csdn.net/wang67712640/article/details/78092804" target="_blank" rel="noopener">https://blog.csdn.net/wang67712640/article/details/78092804</a></p>
+<p>为seam项目中的每个module的pom.xml创建一个build标签，并在其中添加surefire配置。</p>
+<h1 id="groovy-test-task"><a href="#groovy-test-task" class="headerlink" title="groovy test task"></a>groovy test task</h1><p>gradle同样也有类似maven的fork策略，如</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compileTestGroovy &#123;</span><br><span class="line">    groovyOptions.fork(<span class="string">memoryMaximumSize:</span> groovycTest_mx)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在测试时要在test任务中添加jvm参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test&#123;</span><br><span class="line">	jvmArgs &apos;-agentpath:C:\\Users\\84979\\Desktop\\code_analysis\\data_dependency_capturer\\x64\\Release\\data_dependency_capturer.dll&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="class-signature问题"><a href="#class-signature问题" class="headerlink" title="class_signature问题"></a>class_signature问题</h2><p>gradle的编译策略是有一个sourceSet指定所有的test文件位置，将其编译为class文件，所以产生的class_signature没有共同前缀，如图：</p>
+<p><img src="C:\Users\84979\AppData\Roaming\Typora\typora-user-images\1547358654474.png" alt="1547358654474"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/LR(1)parser/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -289,28 +1130,6 @@
           </span>
 
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -340,8 +1159,7 @@
       
         
           
-            <ul>
-<li><h1 id="Motivation-Aim"><a href="#Motivation-Aim" class="headerlink" title="Motivation/Aim"></a>Motivation/Aim</h1><ul>
+            <h1 id="lab2实验报告"><a href="#lab2实验报告" class="headerlink" title="lab2实验报告"></a>lab2实验报告</h1><h1 id="Motivation-Aim"><a href="#Motivation-Aim" class="headerlink" title="Motivation/Aim"></a>Motivation/Aim</h1><ul>
 <li>使用LR语法分析技术分析一个满足LR的上下文无关文法，构造其LR（1）DFA和LR（1）parsing table，然后基于parsing table编程，目的是可以接受一个token输入流，输出对应的规约序列和语法分析树。</li>
 <li>实现慌恐模式的错误恢复。</li>
 </ul>
@@ -368,8 +1186,6 @@
 <li>LR(1) DFA</li>
 </ul>
 <p><img src="../images/4.jpg" alt=""></p>
-</li>
-</ul>
 <ul>
 <li><p>LR(1) parsing table</p>
 <p>| 状态 | ACTION |      |      |      |      | GOTO |<br>| —- | —— | —- | —- | —- | —- | —- |<br>|      | i      | ；   | e    | a    | $R   | S    |<br>| 0    | s2     | e2   | e2   | s3   | e4   | 1    |<br>| 1    | e3.1   | s4   | e2   | e3.1 | ACC  |      |<br>| 2    | s6     | e2   | e1.1 | s11  | e4   | 5    |<br>| 3    | e2     | r4   | e2   | e2   | r4   |      |<br>| 4    | s2     | e2   | e2   | s3   | e4   | 7    |<br>| 5    | e2     | r2   | s8   | e2   | r2   |      |<br>| 6    | s6     | e2   | e1.2 | s11  | e4   | 10   |<br>| 7    | e3.1   | r3   | e2   | e3.1 | r3   |      |<br>| 8    | s2     | e2   | e2   | s3   | e4   | 12   |<br>| 9    | s6     | e2   | e2   | s11  | e4   | 13   |<br>| 10   | e3.2   | r2   | s14  | e3.2 | r2   |      |<br>| 11   | e2     | r4   | r4   | e2   | r4   |      |<br>| 12   | e3.1   | r1   | e2   | e3.1 | r1   |      |<br>| 13   | e3.2   | r3   | r3   | e3.2 | r3   |      |<br>| 14   | s6     | e2   | e2   | s11  | e4   | 15   |<br>| 15   | e3.2   | r1   | r1   | e3.2 | r1   |      |</p>
@@ -1750,563 +2566,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/19/gitlab-server/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/19/gitlab-server/" itemprop="url">gitlab-server</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-19T22:45:48+08:00">
-                2018-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="搭建gitlab服务器"><a href="#搭建gitlab服务器" class="headerlink" title="搭建gitlab服务器"></a>搭建gitlab服务器<br></h1><h2 id="服务器内存一定不能太小（2G-）…-不然就会像这样https-stackoverflow-com-questions-28286002-ruby-cannot-allocate-memory"><a href="#服务器内存一定不能太小（2G-）…-不然就会像这样https-stackoverflow-com-questions-28286002-ruby-cannot-allocate-memory" class="headerlink" title="服务器内存一定不能太小（2G+）….. 不然就会像这样https://stackoverflow.com/questions/28286002/ruby-cannot-allocate-memory"></a>服务器内存一定不能太小（2G+）….. 不然就会像这样<code>https://stackoverflow.com/questions/28286002/ruby-cannot-allocate-memory</code></h2><h2 id="搭建参考最好的文档–https-docs-gitlab-com-omnibus-README-html-，https-about-gitlab-com-installation-这里可以看到哪些版本的服务器可以搭建gitlab（刚开始用Ubuntu12失败了好几次。。。。），安装过程中需要注意的地方在于EXTERNAL-URL，指的是服务器所在URL，不是域名，应该填服务器对应IP，此外，gitlab-ctl用于各种gitlab命令，第一次安装最好使用gitlab-ctl-reconfigure进行配置。。。文档里面还有很多搭建配置233333还没有看完。下一步准备启用https"><a href="#搭建参考最好的文档–https-docs-gitlab-com-omnibus-README-html-，https-about-gitlab-com-installation-这里可以看到哪些版本的服务器可以搭建gitlab（刚开始用Ubuntu12失败了好几次。。。。），安装过程中需要注意的地方在于EXTERNAL-URL，指的是服务器所在URL，不是域名，应该填服务器对应IP，此外，gitlab-ctl用于各种gitlab命令，第一次安装最好使用gitlab-ctl-reconfigure进行配置。。。文档里面还有很多搭建配置233333还没有看完。下一步准备启用https" class="headerlink" title="搭建参考最好的文档–https://docs.gitlab.com/omnibus/README.html ，https://about.gitlab.com/installation/这里可以看到哪些版本的服务器可以搭建gitlab（刚开始用Ubuntu12失败了好几次。。。。），安装过程中需要注意的地方在于EXTERNAL_URL，指的是服务器所在URL，不是域名，应该填服务器对应IP，此外，gitlab-ctl用于各种gitlab命令，第一次安装最好使用gitlab-ctl reconfigure进行配置。。。文档里面还有很多搭建配置233333还没有看完。下一步准备启用https"></a>搭建参考最好的文档–<code>https://docs.gitlab.com/omnibus/README.html</code> ，<code>https://about.gitlab.com/installation/</code>这里可以看到哪些版本的服务器可以搭建gitlab（刚开始用Ubuntu12失败了好几次。。。。），安装过程中需要注意的地方在于EXTERNAL_URL，指的是服务器所在URL，不是域名，应该填服务器对应IP，此外，gitlab-ctl用于各种gitlab命令，第一次安装最好使用<code>gitlab-ctl reconfigure</code>进行配置。。。文档里面还有很多搭建配置233333还没有看完。下一步准备启用https</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/06/cpp进阶/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/06/cpp进阶/" itemprop="url">cpp进阶</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-06T14:36:57+08:00">
-                2018-07-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="..\images\cpp.png" alt="image"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/acm/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/02/acm/" itemprop="url">acm</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-02T15:55:52+08:00">
-                2018-07-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="acm练习笔记"><a href="#acm练习笔记" class="headerlink" title="acm练习笔记"></a>acm练习笔记</h1>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/oslab-process/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/01/oslab-process/" itemprop="url">oslab-process</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-01T08:37:09+08:00">
-                2018-06-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="os进程调度"><a href="#os进程调度" class="headerlink" title="os进程调度"></a>os进程调度</h1><h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><p>实现系统调用，并用pv操作解决睡眠理发师问题。</p>
-<h3 id="遇到的问题及解决"><a href="#遇到的问题及解决" class="headerlink" title="遇到的问题及解决"></a>遇到的问题及解决</h3><ol>
-<li>系统调用<br>orange’s提供了实现系统调用的方法，入口是非系统调用函数x，对应一个中断向量，调用sys_x，需要预先准备好调用函数的堆栈大小，函数声明。参数传递的策略，在<br>x中使用ebp接收参数，压入ebx，在sys_call中压入ebx传递参数，在sys_x中使用c语言接收参数。输出字符串的系统调用时发生pf page fault，疑似那几个进程上下文转换出问题，在main函数中调用x来调用系统调用都可以正常使用（未解决）。</li>
-<li>进程<br>在proc.h中设置进程的基本信息，增加了休眠状态、休眠时间来实现休眠的系统调用。在main.c中编写进程的具体实现。</li>
-<li>semaphore<br>定义semaphore.h这个头文件来定义信号量数据结构，每个信号量有一个进程队列，有pv操作，（pv系统调用也剥离出了调用pv系统调用的pv函数），其中pv操作的p操作中必须要加milli_delay(50);不然会报分页错误，原因尚不明确，可能是p操作中发生进程调度会导致出错。pv操作通过将进程移入等待队列、修改进程状态来实现进程的睡眠、唤醒。并且修改了进程调度函数，睡眠和等待的程序不参与调度。</li>
-<li>main.c<br>main.c里需要附加的工作是给进程一个初始状态，初始化每个信号量，这里初始化信号量时注意要给它的队列指针附地址，一开始这里没有指明地址一直报缺页de了好久。。。。（将一切初始化交给自己做）</li>
-<li>睡眠理发师问题<br>这里我对信号量的理解是互斥的信号量各个进程用同一种，看做是一个锁，只能有若干个进程在用，同步的信号量在不同进程中的职责不同，比如barber在理发师这个进程里用来唤醒理发师的服务，提供给客户理发，而在客户那边却看做申请一个理发师资源，如果申请不到会等待，而consumer这个信号量在理发师这边则是申请一个客户，在客户那边是释放自己的资源给理发师使用，两种信号量互相传递给对方，在对方进程中释放，是一个协作的关系。</li>
-<li>寻找报错原因<br>实验中几乎所有的报错都只会显示一个page fault，很难找到错误原因，最后不得不用控制变量法在确保正确的地方开始，逐步增加条件，直到报错，找到错误。（其实更好的办法是看报缺页的地址再拿出来解析）</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2354,7 +2618,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2413,7 +2677,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
