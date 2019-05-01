@@ -247,6 +247,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/22/fat12/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/22/fat12/" itemprop="url">fat12</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-22T14:48:15+08:00">
+                2018-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="fat12-实验笔记"><a href="#fat12-实验笔记" class="headerlink" title="fat12 实验笔记"></a>fat12 实验笔记</h1><h2 id="实验要求读取一个1-44Mfat12格式的软盘里的文件，实现ls，cat，count指令，具体实验内容并没啥亮点，在cpp、混编中遇到许多问题。。。。（开发环境：ubuntu64，clion，gcc）如果你也在用linux64位，，那么这里面的2-3的问题也可能发生。。。。（每时每刻都想把自己的系统卸了装32位的）"><a href="#实验要求读取一个1-44Mfat12格式的软盘里的文件，实现ls，cat，count指令，具体实验内容并没啥亮点，在cpp、混编中遇到许多问题。。。。（开发环境：ubuntu64，clion，gcc）如果你也在用linux64位，，那么这里面的2-3的问题也可能发生。。。。（每时每刻都想把自己的系统卸了装32位的）" class="headerlink" title="实验要求读取一个1.44Mfat12格式的软盘里的文件，实现ls，cat，count指令，具体实验内容并没啥亮点，在cpp、混编中遇到许多问题。。。。（开发环境：ubuntu64，clion，gcc）如果你也在用linux64位，，那么这里面的2/3的问题也可能发生。。。。（每时每刻都想把自己的系统卸了装32位的）"></a>实验要求读取一个1.44Mfat12格式的软盘里的文件，实现ls，cat，count指令，具体实验内容并没啥亮点，在cpp、混编中遇到许多问题。。。。（开发环境：ubuntu64，clion，gcc）如果你也在用linux64位，，那么这里面的2/3的问题也可能发生。。。。（每时每刻都想把自己的系统卸了装32位的）</h2><h3 id="code-https-paste-ubuntu-com-p-mRd3KKB5VK-（没加汇编，自行脑补）"><a href="#code-https-paste-ubuntu-com-p-mRd3KKB5VK-（没加汇编，自行脑补）" class="headerlink" title="code:https://paste.ubuntu.com/p/mRd3KKB5VK/ （没加汇编，自行脑补）"></a>code:<a href="https://paste.ubuntu.com/p/mRd3KKB5VK/" target="_blank" rel="noopener">https://paste.ubuntu.com/p/mRd3KKB5VK/</a> （没加汇编，自行脑补）</h3><ol>
+<li><p>new or instance</p>
+<p>new或是声明一段空间，在平时使用的时候并没有太过在意，但是由于编译器版本的问题，在gcc，g++这种版本的编译器下使用new有时候多级递归会产生越界（有时候又没有。。。）会经常遇到Error: free(): invalid next size (fast)因此这里建议尽量用声明内存空间并自行管理来代替new。</p>
+</li>
+<li><p>code中使用了树的结构代表file文件系统，这里自然而然的想法是使用new，在后面尝试着将new转换成声明，但是没有改好，也不影响程序运行，因此没有继续解决。。。<br>S</p>
+</li>
+<li><p>非标准扩展函数、c++11以上函数、标准c/c++函数</p>
+<p>以atoi为例，这也是这次代码中遇到的问题，在我需要使用atoi这个函数时，发现linux环境里并不包含这个函数，后来使用sprintf来代替它，在clion中编译链接执行没有任何问题，但是使用gcc联编时，找不到sprintf这个函数，以及nullptr等c++11的新特性，甚至找不到fread函数。。。。前面两个还可以想办法换方法，但是fread我不知道用什么去替代，后面查阅资料发现gcc的命令-std=gnu++0x可以解决这类问题，因此程序中建议不要使用非标准扩展函数，可以使用c++新特性，标准c/c++函数。</p>
+</li>
+<li><p>extern函数，实验中有cpp与nasm联编的情况，在函数声明时需要加extern “C”来代表它的定义是一段c的代码，如果是c与nasm 联编，则只需extern，甚至用gcc自行链接。</p>
+</li>
+<li><p>分配空间不足引起的错误：‘Stack smashing detected’,遇到这个问题真的是特别奇怪，程序逻辑没有任何问题，但是gcc有一种缓存溢出的保护机制，用来防止溢出性的攻击，然后我把我的数组开大了一点点，还是报错，开大了10倍，错误解决。。。。。。</p>
+</li>
+<li>bits/c++config.h: 没有那个文件或目录，如遇到缺少 bits/c++config.h的情况，输入以下命令安装gcc编译相关库 <code>sudo  apt-get  install   gcc-4.7-multilib     g++-4.7-multilib</code></li>
+<li>i386:x86-64与i386 在64位操作系统下要注意的问题，记得生成32位的两个可执行文件，，，最好是32位操作系统啦，64位也可以的，差点卸载重装。。。</li>
+<li>64位linux制作.img软盘，制作方法与32位操作系统一样，但是，当做好一个1.44M fat12后，试图往里面加文件，<br>在挂载到一个目录下添加文件后，发现里面的目录区跟fat12的根本不一样，fat12的目录区32个字节代表一个目录，这里却是64位代表一个，而且当我卸载了软盘，重新挂载后，找不到原来那几个文件了，这里感觉64位操作系统制作软盘很坑很坑，最后用windows winimg制作了一个软盘拷到linux系统下才得以解决。。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/19/w-s-后端开发日记/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -799,7 +957,7 @@ int 80h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
