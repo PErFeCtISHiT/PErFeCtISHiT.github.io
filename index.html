@@ -247,6 +247,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/srcPtr-java迁移过程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/16/srcPtr-java迁移过程/" itemprop="url">srcPtr-java迁移过程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-16T15:22:01+08:00">
+                2019-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/代码分析/" itemprop="url" rel="index">
+                    <span itemprop="name">代码分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程</p>
+<p>2019年6月16日</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Variable <span class="title">GetPreviousVarOccurence</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> name)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">auto</span> it = declared.begin(); it != declared.end(); ++it) &#123;</span><br><span class="line">      <span class="keyword">if</span> (it-&gt;ContainsVariableName(name))</span><br><span class="line">         <span class="keyword">return</span> it-&gt;GetVar(name);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   Variable var; </span><br><span class="line">   <span class="keyword">return</span> var;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从变量池中取值时，直接返回匹配name的变量，但是赋值过程中可能出现多个变量的值经过运算后赋值（还应该考虑一个函数的返回值进行赋值），比如int x = a + b，修改这里的实现。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Variable&gt; GetPreviousVarOccurences(<span class="built_in">std</span>::<span class="built_in">string</span> name)&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Variable&gt; ret;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">auto</span> it = declared.begin(); it != declared.end(); ++it) &#123;</span><br><span class="line">           it-&gt;ContainsAndAddVariableName(name,&amp;ret);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> ret;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ContainsAndAddVariableName</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> name,<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Variable&gt; *ret)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> i = variables.begin(); i != variables.end(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">std</span>::<span class="built_in">strstr</span>(name.c_str(),i-&gt;second.nameofidentifier.c_str()))</span><br><span class="line">                ret-&gt;push_back(variables[i-&gt;second.nameofidentifier]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/01/go-card-data-analysis/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -2478,158 +2625,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/IDA-pro 第一次反汇编/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/09/IDA-pro 第一次反汇编/" itemprop="url">IDA-pro</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-09T19:48:14+08:00">
-                2018-10-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/逆向工程/" itemprop="url" rel="index">
-                    <span itemprop="name">逆向工程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>The official line is: IDA Pro combines an interactive, programmable, multi-processor<br>disassembler coupled to a local and remote debugger and augmented by a complete plugin<br>programming environment. </p>
-<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>参考官方教程：</p>
-<p><a href="https://www.hex-rays.com/products/ida/support/tutorials/debugging_win32.pdf" target="_blank" rel="noopener">Using IDA Pro&amp;s Debugger</a></p>
-<p>从一段代码开始：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">char_average</span><span class="params">(<span class="keyword">char</span> <span class="built_in">array</span>[], <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">int</span> i;</span><br><span class="line"> <span class="keyword">char</span> average;</span><br><span class="line"> average = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; count; i++)</span><br><span class="line"> average += <span class="built_in">array</span>[i];</span><br><span class="line"> average /= count;</span><br><span class="line"> <span class="keyword">return</span> average;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">int_average</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[], <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">int</span> i, average;</span><br><span class="line"> average = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; count; i++)</span><br><span class="line"> average += <span class="built_in">array</span>[i];</span><br><span class="line"> average /= count;</span><br><span class="line"> <span class="keyword">return</span> average;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">char</span> chars[] = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"> <span class="keyword">int</span> integers[] = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"chars[] - average = %d\n"</span>,</span><br><span class="line"> char_average(chars, <span class="keyword">sizeof</span>(chars)));</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"integers[] - average = %d\n"</span>,</span><br><span class="line"> int_average(integers, <span class="keyword">sizeof</span>(integers)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有两个求char数组与int数组均值的函数，具体过程十分简单，然而运行这段代码就会发现int_average这个函数出了问题，如果不用IDA-pro去直接调试也很容易发现问题：sizeof(integers)计算的是这个数组的大小（以字节为单位），因此传递的参数出了问题。下面开始使用IDA-pro。</p>
-<p>因为IDA是一款反汇编软件，这里选择open一个生成好的.exe可执行映像（如图）</p>
-<p><img src="..\images\1539167453853.png" alt="53916745385"></p>
-<p>这里显示文本的方式与官方文档中不同，可以在右边空白位置右击选择text view就可以得到正常的显示，然后可以看到，IDA对.exe文件进行了反汇编（事后也试过对.jar进行反汇编，然而产生的代码根本看不懂。。。）。可以很清楚的看到几个函数块都被IDA检测到，当你想知道一个地址上下左右都是什么值，或者这个寄存器目前的值是什么时，只需要将鼠标移动到该变量处（这功能好强大），接下来就是跟其他IDE一样的操作，设置断点，调试，官方文档中的调试可以看到view-EIP（代码执行处），view-ESP（栈），如果没有显示的部分可以在windows下面找到general registers，打开对应的register view就ok了。</p>
-<p><img src="..\images\1539139488272.png" alt="53913948827"></p>
-<p>这里可以看到在代码的00401575h处，编译器将14h放入参数列表，这个14h就是前面的sizeof(integers) （20），后面还很贴心地给出了注释（count），也就找到了问题所在，这里不知道这个20是怎么计算出来的，可能经过了编译优化，直接将一个20立即数作为了参数。IDA对汇编语言的处理能力和反汇编是我用过的里面最好用的一款（然而到现在也就用过这一款233333）</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2682,7 +2677,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2693,7 +2688,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2704,7 +2699,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

@@ -247,6 +247,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/os-io/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/15/os-io/" itemprop="url">os_io</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-15T03:02:50+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="用OS实现IO"><a href="#用OS实现IO" class="headerlink" title="用OS实现IO"></a>用OS实现IO</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>代码参考了orange’s的源码，从chapter7/n开始进行改动，在keyboard.c里增加了mode全局变量，用来表示与查找模式有关的状态并在console.c里使用了这个变量，在console.h里增加了几种颜色变量，修改了keyboard.c,console.c,tty.c,tty.c里新增了根据时钟刷新console，search接口，tab键的判断。console.c里新增了search逻辑，清屏逻辑，tab逻辑，修改了退格键的逻辑来实现精细处理，keyboard.c新增了sec判断，回车判断来实现search的状态转换</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h4 id="这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。"><a href="#这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。" class="headerlink" title="这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。"></a>这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。</h4><h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><h5 id="keyboard-c"><a href="#keyboard-c" class="headerlink" title="keyboard.c"></a>keyboard.c</h5><p>键盘的代码中分析了键盘中断的端口代码，将结果告诉tty，tty根据不同的按键进行不同的操作，这里键盘响应都是以按下某个键作为开始响应，而抬起大多数没有考虑，也符合常理。（考虑make，忽略break）。</p>
+<h5 id="tty-c"><a href="#tty-c" class="headerlink" title="tty.c"></a>tty.c</h5><p>tty接收键盘传来的指令，用console.c显示，orange’s中支持多个tty，这里只开了一个。</p>
+<h5 id="console-c"><a href="#console-c" class="headerlink" title="console.c"></a>console.c</h5><p>console作为显示，需要显示东西时，可以先声明一个char*，指向当前console所显示的位置，然后修改其后面的内容，显示到console上，再修改cursor，指向当前输入。</p>
+<h5 id="文件组织结构"><a href="#文件组织结构" class="headerlink" title="文件组织结构"></a>文件组织结构</h5><p>orange’s的源码参考了c语言的组织方式，有lib，有include，参考这个结构，在对应的lib里加自己需要的lib函数，在include里面加需要的头文件，由于是在自己的os上运行，所以没有&lt;stdio.h&gt;等等的c语言头文件，所以在写c语言代码时，只能使用自己写的函数，而且目前还没有尝试过debug，还好问题不是很大……</p>
+<h5 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h5><p>参考orange’s，完善了makefile，clean，buildimg，make，run。makefile是真的好用。。。。64位linux的makefile需要注意在所有的gcc指令后面添加-m32生成32位.o文件，在ld指令后面添加-m elf_i386。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/22/fat12/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -957,7 +1104,7 @@ int 80h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -968,7 +1115,7 @@ int 80h
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -979,7 +1126,7 @@ int 80h
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

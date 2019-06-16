@@ -247,6 +247,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/IDA-pro 第一次反汇编/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/09/IDA-pro 第一次反汇编/" itemprop="url">IDA-pro</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-09T19:48:14+08:00">
+                2018-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/逆向工程/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向工程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>The official line is: IDA Pro combines an interactive, programmable, multi-processor<br>disassembler coupled to a local and remote debugger and augmented by a complete plugin<br>programming environment. </p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>参考官方教程：</p>
+<p><a href="https://www.hex-rays.com/products/ida/support/tutorials/debugging_win32.pdf" target="_blank" rel="noopener">Using IDA Pro&amp;s Debugger</a></p>
+<p>从一段代码开始：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">char_average</span><span class="params">(<span class="keyword">char</span> <span class="built_in">array</span>[], <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">int</span> i;</span><br><span class="line"> <span class="keyword">char</span> average;</span><br><span class="line"> average = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; count; i++)</span><br><span class="line"> average += <span class="built_in">array</span>[i];</span><br><span class="line"> average /= count;</span><br><span class="line"> <span class="keyword">return</span> average;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">int_average</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[], <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">int</span> i, average;</span><br><span class="line"> average = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; count; i++)</span><br><span class="line"> average += <span class="built_in">array</span>[i];</span><br><span class="line"> average /= count;</span><br><span class="line"> <span class="keyword">return</span> average;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">char</span> chars[] = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"> <span class="keyword">int</span> integers[] = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"chars[] - average = %d\n"</span>,</span><br><span class="line"> char_average(chars, <span class="keyword">sizeof</span>(chars)));</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"integers[] - average = %d\n"</span>,</span><br><span class="line"> int_average(integers, <span class="keyword">sizeof</span>(integers)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有两个求char数组与int数组均值的函数，具体过程十分简单，然而运行这段代码就会发现int_average这个函数出了问题，如果不用IDA-pro去直接调试也很容易发现问题：sizeof(integers)计算的是这个数组的大小（以字节为单位），因此传递的参数出了问题。下面开始使用IDA-pro。</p>
+<p>因为IDA是一款反汇编软件，这里选择open一个生成好的.exe可执行映像（如图）</p>
+<p><img src="..\images\1539167453853.png" alt="53916745385"></p>
+<p>这里显示文本的方式与官方文档中不同，可以在右边空白位置右击选择text view就可以得到正常的显示，然后可以看到，IDA对.exe文件进行了反汇编（事后也试过对.jar进行反汇编，然而产生的代码根本看不懂。。。）。可以很清楚的看到几个函数块都被IDA检测到，当你想知道一个地址上下左右都是什么值，或者这个寄存器目前的值是什么时，只需要将鼠标移动到该变量处（这功能好强大），接下来就是跟其他IDE一样的操作，设置断点，调试，官方文档中的调试可以看到view-EIP（代码执行处），view-ESP（栈），如果没有显示的部分可以在windows下面找到general registers，打开对应的register view就ok了。</p>
+<p><img src="..\images\1539139488272.png" alt="53913948827"></p>
+<p>这里可以看到在代码的00401575h处，编译器将14h放入参数列表，这个14h就是前面的sizeof(integers) （20），后面还很贴心地给出了注释（count），也就找到了问题所在，这里不知道这个20是怎么计算出来的，可能经过了编译优化，直接将一个20立即数作为了参数。IDA对汇编语言的处理能力和反汇编是我用过的里面最好用的一款（然而到现在也就用过这一款233333）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/windows程序设计/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1507,153 +1659,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/os-io/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/sf.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somnus">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/15/os-io/" itemprop="url">os_io</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-15T03:02:50+08:00">
-                2018-05-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="用OS实现IO"><a href="#用OS实现IO" class="headerlink" title="用OS实现IO"></a>用OS实现IO</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>代码参考了orange’s的源码，从chapter7/n开始进行改动，在keyboard.c里增加了mode全局变量，用来表示与查找模式有关的状态并在console.c里使用了这个变量，在console.h里增加了几种颜色变量，修改了keyboard.c,console.c,tty.c,tty.c里新增了根据时钟刷新console，search接口，tab键的判断。console.c里新增了search逻辑，清屏逻辑，tab逻辑，修改了退格键的逻辑来实现精细处理，keyboard.c新增了sec判断，回车判断来实现search的状态转换</p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h4 id="这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。"><a href="#这里跳过了boot-gt-loader-loader-gt-kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA-B-C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console-c-tty-c-keyboard-c-console-h-tty-h-keyboard-h-global-h，-c文件负责实现具体的功能，-h文件声明-c中用到的数据结构，tty-console-keyboard都有一个结构体。global-h文件声明了一些全局变量。" class="headerlink" title="这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。"></a>这里跳过了boot-&gt;loader,loader-&gt;kernel，orange’s上有源码，原理参考第三章，进入内核模式，开启键盘中断，开启时钟中断，运行tty进程，taskA,B,C（并没有用到），tty进程负责应并处理键盘输入，随时读取键盘输入，并且输出到console上，这里比较关键的几个文件有console.c,tty.c,keyboard.c,console.h,tty.h,keyboard.h,global.h，.c文件负责实现具体的功能，.h文件声明.c中用到的数据结构，tty,console,keyboard都有一个结构体。global.h文件声明了一些全局变量。</h4><h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><h5 id="keyboard-c"><a href="#keyboard-c" class="headerlink" title="keyboard.c"></a>keyboard.c</h5><p>键盘的代码中分析了键盘中断的端口代码，将结果告诉tty，tty根据不同的按键进行不同的操作，这里键盘响应都是以按下某个键作为开始响应，而抬起大多数没有考虑，也符合常理。（考虑make，忽略break）。</p>
-<h5 id="tty-c"><a href="#tty-c" class="headerlink" title="tty.c"></a>tty.c</h5><p>tty接收键盘传来的指令，用console.c显示，orange’s中支持多个tty，这里只开了一个。</p>
-<h5 id="console-c"><a href="#console-c" class="headerlink" title="console.c"></a>console.c</h5><p>console作为显示，需要显示东西时，可以先声明一个char*，指向当前console所显示的位置，然后修改其后面的内容，显示到console上，再修改cursor，指向当前输入。</p>
-<h5 id="文件组织结构"><a href="#文件组织结构" class="headerlink" title="文件组织结构"></a>文件组织结构</h5><p>orange’s的源码参考了c语言的组织方式，有lib，有include，参考这个结构，在对应的lib里加自己需要的lib函数，在include里面加需要的头文件，由于是在自己的os上运行，所以没有&lt;stdio.h&gt;等等的c语言头文件，所以在写c语言代码时，只能使用自己写的函数，而且目前还没有尝试过debug，还好问题不是很大……</p>
-<h5 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h5><p>参考orange’s，完善了makefile，clean，buildimg，make，run。makefile是真的好用。。。。64位linux的makefile需要注意在所有的gcc指令后面添加-m32生成32位.o文件，在ld指令后面添加-m elf_i386。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1706,7 +1711,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1717,7 +1722,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1728,7 +1733,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
