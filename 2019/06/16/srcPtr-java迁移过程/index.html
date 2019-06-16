@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程 2019年6月16日 123456789Variable GetPreviousVarOccurence(std::string name) &amp;#123;   for (auto it = declared.begin(); it != declared.end(); ++it) &amp;#123;      if (it-&amp;gt">
+<meta name="description" content="记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程 srcPtr项目地址：https://github.com/srcML/srcPtr.git 迁移项目地址：https://github.com/PErFeCtISHiT/srcPTR-java.git 2019年6月16日 123456789Variable GetPreviousVarOccurence(std::str">
 <meta name="keywords" content="srcPtr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="srcPtr-java迁移过程">
 <meta property="og:url" content="http://yoursite.com/2019/06/16/srcPtr-java迁移过程/index.html">
 <meta property="og:site_name" content="somnus">
-<meta property="og:description" content="记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程 2019年6月16日 123456789Variable GetPreviousVarOccurence(std::string name) &amp;#123;   for (auto it = declared.begin(); it != declared.end(); ++it) &amp;#123;      if (it-&amp;gt">
+<meta property="og:description" content="记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程 srcPtr项目地址：https://github.com/srcML/srcPtr.git 迁移项目地址：https://github.com/PErFeCtISHiT/srcPTR-java.git 2019年6月16日 123456789Variable GetPreviousVarOccurence(std::str">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-16T07:27:11.433Z">
+<meta property="og:updated_time" content="2019-06-16T07:30:47.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="srcPtr-java迁移过程">
-<meta name="twitter:description" content="记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程 2019年6月16日 123456789Variable GetPreviousVarOccurence(std::string name) &amp;#123;   for (auto it = declared.begin(); it != declared.end(); ++it) &amp;#123;      if (it-&amp;gt">
+<meta name="twitter:description" content="记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程 srcPtr项目地址：https://github.com/srcML/srcPtr.git 迁移项目地址：https://github.com/PErFeCtISHiT/srcPTR-java.git 2019年6月16日 123456789Variable GetPreviousVarOccurence(std::str">
 
 
 
@@ -341,6 +341,8 @@
 
       
         <p>记录了修改srcPtr源码，让srcPtr可以解析java代码文件的过程</p>
+<p>srcPtr项目地址：<a href="https://github.com/srcML/srcPtr.git" target="_blank" rel="noopener">https://github.com/srcML/srcPtr.git</a></p>
+<p>迁移项目地址：<a href="https://github.com/PErFeCtISHiT/srcPTR-java.git" target="_blank" rel="noopener">https://github.com/PErFeCtISHiT/srcPTR-java.git</a></p>
 <p>2019年6月16日</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Variable <span class="title">GetPreviousVarOccurence</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> name)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">auto</span> it = declared.begin(); it != declared.end(); ++it) &#123;</span><br><span class="line">      <span class="keyword">if</span> (it-&gt;ContainsVariableName(name))</span><br><span class="line">         <span class="keyword">return</span> it-&gt;GetVar(name);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   Variable var; </span><br><span class="line">   <span class="keyword">return</span> var;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从变量池中取值时，直接返回匹配name的变量，但是赋值过程中可能出现多个变量的值经过运算后赋值（还应该考虑一个函数的返回值进行赋值），比如int x = a + b，修改这里的实现。</p>
