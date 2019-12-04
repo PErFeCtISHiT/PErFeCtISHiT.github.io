@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="seam构建仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在h">
+<meta name="description" content="seam与groovy执行测试用例问题仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="seam">
 <meta property="og:url" content="http://yoursite.com/2018/12/20/seam/index.html">
 <meta property="og:site_name" content="somnus">
-<meta property="og:description" content="seam构建仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在h">
+<meta property="og:description" content="seam与groovy执行测试用例问题仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="c:/Users/84979/AppData/Roaming/Typora/typora-user-images/1545320362141.png">
 <meta property="og:image" content="c:/Users/84979/AppData/Roaming/Typora/typora-user-images/1547358654474.png">
-<meta property="og:updated_time" content="2019-01-13T05:51:01.537Z">
+<meta property="og:updated_time" content="2019-09-11T10:55:46.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="seam">
-<meta name="twitter:description" content="seam构建仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在h">
+<meta name="twitter:description" content="seam与groovy执行测试用例问题仓库问题seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在">
 <meta name="twitter:image" content="c:/Users/84979/AppData/Roaming/Typora/typora-user-images/1545320362141.png">
 
 
@@ -320,7 +320,7 @@
       
 
       
-        <h2 id="seam构建"><a href="#seam构建" class="headerlink" title="seam构建"></a>seam构建</h2><h3 id="仓库问题"><a href="#仓库问题" class="headerlink" title="仓库问题"></a>仓库问题</h3><p>seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在<a href="https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。" target="_blank" rel="noopener">https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。</a></p>
+        <h2 id="seam与groovy执行测试用例问题"><a href="#seam与groovy执行测试用例问题" class="headerlink" title="seam与groovy执行测试用例问题"></a>seam与groovy执行测试用例问题</h2><h3 id="仓库问题"><a href="#仓库问题" class="headerlink" title="仓库问题"></a>仓库问题</h3><p>seam2.2以下均使用ant管理，2.3使用maven，在seam源码中的readme可以看到要构建seam需要安装jboss-as，然后mvn clean install，然而在mvn clean install时一直找不到pom.xml中的依赖（dom4j-brew)，dom4j在maven中央仓库中便有，也很常见，然而dom4j-brew缺不在中央仓库中，查了下应该在<a href="https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。" target="_blank" rel="noopener">https://repository.jboss.org/nexus/content/groups/public-jboss/这个仓库里。顺便了解了下远程仓库的机制。</a></p>
 <p>当我们执行 Maven 构建命令，Maven 依赖库按以下顺序进行搜索：</p>
 <ul>
 <li>第1步 - 搜索依赖本地资源库，如果没有找到，跳到第2步，否则，如果找到那么会做进一步处理。</li>
@@ -525,7 +525,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#seam构建"><span class="nav-number">1.</span> <span class="nav-text">seam构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#仓库问题"><span class="nav-number">1.1.</span> <span class="nav-text">仓库问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#javadoc构建检查"><span class="nav-number">1.2.</span> <span class="nav-text">javadoc构建检查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JBoss-as"><span class="nav-number">2.</span> <span class="nav-text">JBoss-as</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test"><span class="nav-number">3.</span> <span class="nav-text">test</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#surefire"><span class="nav-number"></span> <span class="nav-text">surefire</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#groovy-test-task"><span class="nav-number"></span> <span class="nav-text">groovy test task</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#class-signature问题"><span class="nav-number">1.</span> <span class="nav-text">class_signature问题</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#seam与groovy执行测试用例问题"><span class="nav-number">1.</span> <span class="nav-text">seam与groovy执行测试用例问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#仓库问题"><span class="nav-number">1.1.</span> <span class="nav-text">仓库问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#javadoc构建检查"><span class="nav-number">1.2.</span> <span class="nav-text">javadoc构建检查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JBoss-as"><span class="nav-number">2.</span> <span class="nav-text">JBoss-as</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test"><span class="nav-number">3.</span> <span class="nav-text">test</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#surefire"><span class="nav-number"></span> <span class="nav-text">surefire</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#groovy-test-task"><span class="nav-number"></span> <span class="nav-text">groovy test task</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#class-signature问题"><span class="nav-number">1.</span> <span class="nav-text">class_signature问题</span></a></li></ol></li></div>
             
 
           </div>
