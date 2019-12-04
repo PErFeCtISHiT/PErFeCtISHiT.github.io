@@ -247,6 +247,298 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/os进程调度/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/19/os进程调度/" itemprop="url">os进程调度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-19T15:15:41+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h1><p>设计调度算法对进程进行调度，考虑cpu个数，资源占用。提供一块命名为freeMemory的内存。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>参考了提供的贪心算法，贪心算法的实现原理是每个时间片进程调度时清空所有资源，从任务列表中选择一个任务进行调度，此算法对于内存读写很不友好，每次进程调度都需要读写资源，读写任务，cpu内运行的任务切换次数也比较多，优点是任务的等待时间较短，我在设计算法时，便基于内存读写与cpu切换，希望尽量减少内存读写次数，cpu切换次数。</p>
+<h3 id="code说明"><a href="#code说明" class="headerlink" title="code说明"></a>code说明</h3><p>算法是fcfs+最大资源数优先，schedule类的变量声明了一些内存中的偏移，如pcb，资源、cpu，可以通过最新的任务id来得到任务的总个数，每个任务有自己的数据结构，记录了任务的到达时间，剩余时间等信息。在ProcessSchedule时，首先根据内存还原cpuOperate的状态，找到上一时刻cpu内运行的进程，如果进程结束，则选择进程队列中需要资源数最大并且资源均可以使用的进程运行，为其分配资源，否则继续运行之前的进程，这样cpu的切换只发生在进程运行结束时（非抢占），内存的读写也仅存在于读取cpu中的进程，切换进程。实际检测发现内存的写次数为2572，是贪心算法的1/50，cpu切换次数是20，是贪心算法的1/2，由于需要还原现场，使用了较多的读取内存操作，内存的读取次数增加了一倍，最后，满意度增加了一倍。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>fcfs+最大资源数优先，每个进程非抢占式的独占cpu，优先选择使用资源多的进程去cpu执行，可以尽量减少资源零头，参照了可变分区存储管理的思想，算法最终满意度比较长，但是实现了减少内存读写，减少cpu切换。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/w-s-jpa-hibernate/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/sf.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somnus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/15/w-s-jpa-hibernate/" itemprop="url">w/s jpa+hibernate</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-15T03:53:31+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发/" itemprop="url" rel="index">
+                    <span itemprop="name">开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="jpa-hibernate-spring-boot"><a href="#jpa-hibernate-spring-boot" class="headerlink" title="jpa+hibernate+spring boot"></a>jpa+hibernate+spring boot</h1><h2 id="使用中的问题及解决"><a href="#使用中的问题及解决" class="headerlink" title="使用中的问题及解决"></a>使用中的问题及解决</h2><h3 id="报错信息的利用"><a href="#报错信息的利用" class="headerlink" title="报错信息的利用"></a>报错信息的利用</h3><p>在hibernate的entity中有几处表的关联写错了，然后spring boot运行报错，然而exception给的信息里没有提供是这个entity出错，要仔细在报错里面找，才可以找到。</p>
+<h3 id="hbm2ddl"><a href="#hbm2ddl" class="headerlink" title="hbm2ddl"></a>hbm2ddl</h3><p>在每次运行项目时，hbm2ddl会检查entity，去数据库中修改表，执行时间很慢，因此在property里面将其设置为none就好啦</p>
+<h3 id="linux服务器数据库配置"><a href="#linux服务器数据库配置" class="headerlink" title="linux服务器数据库配置"></a>linux服务器数据库配置</h3><p>参考网上教程，然而一直配不好，发现是ubuntu里的防火墙配置的问题，而且有不同的版本，，，在配置完数据库服务后，查看端口，如果有端口并且监听的ip地址是全局的，还连不上数据库，一般就是防火墙的问题了。</p>
+<h3 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h3><p>根据去年经验，先建表后用idea的hibernate插件自动生成hbm，然而spring boot并不需要hbm.xml，只需要在entity里面好好设计表，然后会通过hbm2ddl修改数据库，，因此正确的流程应该是写entity，自动生成表，这样表也更加严格正确。</p>
+<h3 id="jpa"><a href="#jpa" class="headerlink" title="jpa"></a>jpa</h3><p>这次是第一次用到jpa，持久化层的一个api，看起来功能强大，写好对数据库持久化的接口以后就可以自动装配。。。</p>
+<h2 id="关联映射"><a href="#关联映射" class="headerlink" title="关联映射"></a>关联映射</h2><p>通过在entity里面建立表属性，进行表与表之间的one to many，many to one，many to many关联映射，设置级联关系（一般为merge，更新和新增时会对关联的表进行对应操作），ssh框架中controller返回对象时使用了json工具来将对象转换为json，因此需要@jsonignore来对表内的对象进行约束，不返回这些对象属性（否则会无限递归，跑崩线程）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/os-io/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1104,7 +1396,7 @@ int 80h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1115,7 +1407,7 @@ int 80h
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1126,7 +1418,7 @@ int 80h
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
